@@ -5,16 +5,20 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import utilidades.Utilidades;
+
 public class PantallaPrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+    private Utilidades utilidades = new Utilidades();
 
     /**
      * Launch the application.
@@ -34,8 +38,10 @@ public class PantallaPrincipal extends JFrame {
 
     /**
      * Create the frame.
+     * 
+     * @throws FileNotFoundException
      */
-    public PantallaPrincipal() {
+    public PantallaPrincipal() throws FileNotFoundException {
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 450, 300);
 	contentPane = new JPanel();
@@ -64,6 +70,7 @@ public class PantallaPrincipal extends JFrame {
 	});
 	btnPlantilla.setBounds(68, 198, 117, 25);
 	panel.add(btnPlantilla);
+	utilidades.codigoTest(00002);
 
     }
 }

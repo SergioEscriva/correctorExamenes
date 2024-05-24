@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ventanaCodigo {
+public class VentanaCodigo {
 
     public static void main(String[] args) {
 	JFrame frame = new JFrame("Demo application");
