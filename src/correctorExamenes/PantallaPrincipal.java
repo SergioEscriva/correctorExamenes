@@ -3,8 +3,8 @@ package correctorExamenes;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -56,11 +56,14 @@ public class PantallaPrincipal extends JFrame {
 	panel.add(btnCorregir);
 
 	JButton btnPlantilla = new JButton("Plantilla...");
-	btnPlantilla.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent arg0) {
+	btnPlantilla.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+
 	    }
 	});
 	btnPlantilla.setBounds(68, 198, 117, 25);
 	panel.add(btnPlantilla);
+
     }
 }
