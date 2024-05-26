@@ -4,8 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -19,7 +17,7 @@ import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
-public class DetectWhiteCircles {
+public class BusquedaCirculos {
     static {
 	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
@@ -39,7 +37,7 @@ public class DetectWhiteCircles {
 	    return;
 	}
 
-	// Convertir la imagen a escala de grises
+	// Convertir la imagen a escala de grises necesario para que se vea mejor
 	Mat gray = new Mat();
 	Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
 
@@ -48,7 +46,13 @@ public class DetectWhiteCircles {
 
 	// Detectar círculos utilizando la transformada de Hough
 	Mat circles = new Mat();
-	Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 25, 100, 30, 15, 50);
+	Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 25, 100, 30, 15, 50); // números
+													   // que hay
+													   // que jugar
+													   // para que
+													   // localize
+													   // los
+													   // circulos
 
 	// Crear una lista para almacenar los círculos blancos detectados
 	List<Point> whiteCircles = new ArrayList<>();
@@ -97,33 +101,8 @@ public class DetectWhiteCircles {
 	    lista.add(pares);
 	}
 
-	// Ordenar la lista basado en los dos números
-	Collections.sort(lista, new Comparator<Par>() {
-	    @Override
-	    public int compare(Par p1, Par p2) {
-		int compareFirst = Double.compare(p1.getNumero1(), p2.getNumero1());
-		if (compareFirst != 0) {
-		    return compareFirst;
-		} else {
-		    return Double.compare(p1.getNumero2(), p2.getNumero2());
-		}
-	    }
-	});
-
-	// Ordenar la lista basado en los dos números
-	Collections.sort(lista, new Comparator<Par>() {
-	    @Override
-	    public int compare(Par p1, Par p2) {
-		int compareFirst = Double.compare(p1.getNumero2(), p2.getNumero2());
-		if (compareFirst != 0) {
-		    return compareFirst;
-		} else {
-		    return Double.compare(p1.getNumero1(), p2.getNumero1());
-		}
-	    }
-	});
-
 	System.out.println(lista);
+	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
 	busqueda.busquedaLetras(lista);
 
