@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -46,7 +48,7 @@ public class DetectWhiteCircles {
 
 	// Detectar círculos utilizando la transformada de Hough
 	Mat circles = new Mat();
-	Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 50, 100, 30, 15, 50);
+	Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 25, 100, 30, 15, 50);
 
 	// Crear una lista para almacenar los círculos blancos detectados
 	List<Point> whiteCircles = new ArrayList<>();
@@ -86,11 +88,45 @@ public class DetectWhiteCircles {
 
 	// Guardar la imagen resultante con los círculos detectados
 	Imgcodecs.imwrite("./blancos.jpg", src);
+	List<Par> lista = new ArrayList<>();
 
 	// Mostrar resultados
 	for (Point p : whiteCircles) {
-	    System.out.println("Círculo blanco detectado en: (" + p.x + ", " + p.y + ")");
+//	    System.out.println("Círculo blanco detectado en: (" + p.x + ", " + p.y + ")");
+	    Par pares = new Par(p.x, p.y);
+	    lista.add(pares);
 	}
+
+	// Ordenar la lista basado en los dos números
+	Collections.sort(lista, new Comparator<Par>() {
+	    @Override
+	    public int compare(Par p1, Par p2) {
+		int compareFirst = Double.compare(p1.getNumero1(), p2.getNumero1());
+		if (compareFirst != 0) {
+		    return compareFirst;
+		} else {
+		    return Double.compare(p1.getNumero2(), p2.getNumero2());
+		}
+	    }
+	});
+
+	// Ordenar la lista basado en los dos números
+	Collections.sort(lista, new Comparator<Par>() {
+	    @Override
+	    public int compare(Par p1, Par p2) {
+		int compareFirst = Double.compare(p1.getNumero2(), p2.getNumero2());
+		if (compareFirst != 0) {
+		    return compareFirst;
+		} else {
+		    return Double.compare(p1.getNumero1(), p2.getNumero1());
+		}
+	    }
+	});
+
+	System.out.println(lista);
+	Busqueda busqueda = new Busqueda();
+	busqueda.busquedaLetras(lista);
+
     }
 
     public static void invertirOscurecer() throws IOException {
@@ -111,7 +147,7 @@ public class DetectWhiteCircles {
 
 	// conviert blanco y negro
 	BufferedImage imagenNegra = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
-
+	List<Double> lista = new ArrayList<>();
 	for (int i = 0; i < img.getWidth(); i++) {
 	    for (int j = 0; j < img.getHeight(); j++) {
 		int pixel = img.getRGB(i, j);
@@ -122,6 +158,7 @@ public class DetectWhiteCircles {
 		    imagenNegra.setRGB(i, j, 0x00000000);
 		}
 	    }
+	    // lista.add(imagenNegra);
 	}
 
 	ImageIO.write(imagenNegra, "jpg", new File("./bnarchivo-negro.jpg"));
