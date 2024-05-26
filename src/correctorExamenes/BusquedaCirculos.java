@@ -17,20 +17,27 @@ import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.TessAPI;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.Word;
+
 public class BusquedaCirculos {
     static {
 	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
+    private static String imagePath;
 
     public static void main(String[] args) throws IOException {
-	invertirOscurecer();
+
+	buscarRespuestas();
 
     }
 
     public static void buscarCirculos() {
 	// Cargar la imagen
-	String filePath = "./bnarchivo-negro.jpg";// "src/correctorExamenes/examen22.jpg";
-	Mat src = Imgcodecs.imread(filePath);
+	String imagePathInv = "./bnarchivo-negro.jpg";//
+	Mat src = Imgcodecs.imread(imagePathInv);
 
 	if (src.empty()) {
 	    System.out.println("No se pudo cargar la imagen");
@@ -100,9 +107,6 @@ public class BusquedaCirculos {
 	    Par pares = new Par(p.x, p.y);
 	    lista.add(pares);
 	}
-
-	System.out.println("lista sin Ordenar " + lista);
-
 	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
 	busqueda.busquedaLetras(lista);
@@ -110,7 +114,7 @@ public class BusquedaCirculos {
     }
 
     public static void invertirOscurecer() throws IOException {
-	File file = new File("src/correctorExamenes/examen3.jpg");
+	File file = new File(imagePath);
 	BufferedImage img = ImageIO.read(file);
 
 	// Invierte los valores RGB de cada pixel
@@ -143,6 +147,50 @@ public class BusquedaCirculos {
 
 	ImageIO.write(imagenNegra, "jpg", new File("./bnarchivo-negro.jpg"));
 	buscarCirculos();
+
+    }
+
+    public static void buscarRespuestas() throws IOException {
+	imagePath = "src/correctorExamenes/examen2.jpg";
+
+	// Crear una instancia de Tesseract
+	ITesseract tesseract = new Tesseract();
+
+	// Configurar la ruta del idioma (opcional)
+	String datapath = "src/resources/tessdata_best";
+	tesseract.setDatapath(new File(datapath).getPath());
+
+	// Configurar el idioma
+	tesseract.setLanguage("eng");
+
+	// Configurar para buscar solo números
+	tesseract.setTessVariable("tessedit_char_whitelist", "RESPUESTAS");
+
+	try {
+	    // Leer el archivo de imagen y convertirlo a BufferedImage
+	    BufferedImage image = ImageIO.read(new File(imagePath));
+
+	    // Realizar OCR en la imagen y obtener las palabras
+	    List<Word> words = tesseract.getWords(image, TessAPI.TessPageIteratorLevel.RIL_WORD);
+
+	    // Imprimir las coordenadas de cada palabra
+	    for (Word word : words) {
+		String text = word.getText();
+		int x = word.getBoundingBox().x;
+		int y = word.getBoundingBox().y;
+		int width = word.getBoundingBox().width;
+		int height = word.getBoundingBox().height;
+
+		System.out.println("Palabra: " + text);
+		System.out.println("Coordenadas: (" + x + ", " + y + ")");
+		System.out.println("Tamaño: " + width + "x" + height);
+		System.out.println();
+	    }
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	invertirOscurecer();
+	////// leeeeeeee
 
     }
 }
