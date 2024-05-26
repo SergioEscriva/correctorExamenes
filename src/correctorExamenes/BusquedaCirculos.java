@@ -83,7 +83,7 @@ public class BusquedaCirculos {
 
 	    // Si la mayoría de los píxeles son blancos, añadimos el círculo a la lista de
 	    // círculos blancos
-	    if (whitePixels > (Math.PI * radius * radius * 0.7)) { // 70% de los píxeles son blancos
+	    if (whitePixels > (Math.PI * radius * radius * 0.8)) { // 70% de los píxeles son blancos
 		whiteCircles.add(center);
 		// Dibujar el círculo detectado en la imagen original
 		Imgproc.circle(src, center, radius, new Scalar(0, 255, 0), 3);
@@ -101,7 +101,8 @@ public class BusquedaCirculos {
 	    lista.add(pares);
 	}
 
-	System.out.println(lista);
+	System.out.println("lista sin Ordenar " + lista);
+
 	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
 	busqueda.busquedaLetras(lista);
@@ -109,7 +110,7 @@ public class BusquedaCirculos {
     }
 
     public static void invertirOscurecer() throws IOException {
-	File file = new File("src/correctorExamenes/examen2.jpg");
+	File file = new File("src/correctorExamenes/examen3.jpg");
 	BufferedImage img = ImageIO.read(file);
 
 	// Invierte los valores RGB de cada pixel
