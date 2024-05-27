@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-openjdk-amd64"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre-1.8"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/jai-imageio-core-1.4.0.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/jul-to-slf4j-1.7.25.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/org.json.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/tess4j-4.0.0.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/lept4j-1.9.3.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/log4j-over-slf4j-1.7.25.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/jcl-over-slf4j-1.7.25.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/slf4j-api-1.7.25.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/jna-4.1.0.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="/home/sergio/code/work/eclipse-workspace/correctorExamenes/cosas/opencv-490.jar">
+	<classpathentry kind="lib" path="cosas/jai-imageio-core-1.4.0.jar"/>
+	<classpathentry kind="lib" path="cosas/jcl-over-slf4j-1.7.25.jar"/>
+	<classpathentry kind="lib" path="cosas/jna-4.1.0.jar"/>
+	<classpathentry kind="lib" path="cosas/jul-to-slf4j-1.7.25.jar"/>
+	<classpathentry kind="lib" path="cosas/lept4j-1.9.3.jar"/>
+	<classpathentry kind="lib" path="cosas/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="cosas/log4j-over-slf4j-1.7.25.jar"/>
+	<classpathentry kind="lib" path="cosas/opencv-490.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="correctorExamenes/cosas"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="cosas/org.json.jar"/>
+	<classpathentry kind="lib" path="cosas/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="cosas/tess4j-4.0.0.jar"/>
+	<classpathentry kind="lib" path="cosas/opencv-490w.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="correctorExamenes/cosas"/>
 		</attributes>

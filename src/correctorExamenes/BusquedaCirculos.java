@@ -23,174 +23,174 @@ import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Word;
 
 public class BusquedaCirculos {
-    static {
-	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-    }
-    private static String imagePath;
+	static {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	}
+	private static String imagePath;
 
-    public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 
-	buscarRespuestas();
+		buscarRespuestas();
 
-    }
-
-    public static void buscarCirculos() {
-	// Cargar la imagen
-	String imagePathInv = "./bnarchivo-negro.jpg";//
-	Mat src = Imgcodecs.imread(imagePathInv);
-
-	if (src.empty()) {
-	    System.out.println("No se pudo cargar la imagen");
-	    return;
 	}
 
-	// Convertir la imagen a escala de grises necesario para que se vea mejor
-	Mat gray = new Mat();
-	Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+	public static void buscarCirculos() {
+		// Cargar la imagen
+		String imagePathInv = "./bnarchivo-negro.jpg";//
+		Mat src = Imgcodecs.imread(imagePathInv);
 
-	// Aplicar desenfoque para reducir el ruido
-	Imgproc.GaussianBlur(gray, gray, new Size(9, 9), 2, 2);
-
-	// Detectar círculos utilizando la transformada de Hough
-	Mat circles = new Mat();
-	Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 25, 100, 30, 15, 50); // números
-													   // que hay
-													   // que jugar
-													   // para que
-													   // localize
-													   // los
-													   // circulos
-
-	// Crear una lista para almacenar los círculos blancos detectados
-	List<Point> whiteCircles = new ArrayList<>();
-
-	// Verificar cada círculo detectado
-	for (int i = 0; i < circles.cols(); i++) {
-	    double[] circle = circles.get(0, i);
-	    if (circle == null)
-		continue;
-	    Point center = new Point(Math.round(circle[0]), Math.round(circle[1]));
-	    int radius = (int) Math.round(circle[2]);
-
-	    // Crear una máscara para el círculo
-	    Mat mask = Mat.zeros(gray.size(), CvType.CV_8UC1);
-	    Imgproc.circle(mask, center, radius, new Scalar(255, 255, 255), -1);
-
-	    // Extraer la región del círculo de la imagen original
-	    Mat circleROI = new Mat();
-	    src.copyTo(circleROI, mask);
-
-	    // Convertir la región del círculo a escala de grises y umbralizar
-	    Mat circleGray = new Mat();
-	    Imgproc.cvtColor(circleROI, circleGray, Imgproc.COLOR_BGR2GRAY);
-	    Imgproc.threshold(circleGray, circleGray, 200, 255, Imgproc.THRESH_BINARY);
-
-	    // Calcular la cantidad de píxeles blancos en el círculo
-	    int whitePixels = Core.countNonZero(circleGray);
-
-	    // Si la mayoría de los píxeles son blancos, añadimos el círculo a la lista de
-	    // círculos blancos
-	    if (whitePixels > (Math.PI * radius * radius * 0.8)) { // 70% de los píxeles son blancos
-		whiteCircles.add(center);
-		// Dibujar el círculo detectado en la imagen original
-		Imgproc.circle(src, center, radius, new Scalar(0, 255, 0), 3);
-	    }
-	}
-
-	// Guardar la imagen resultante con los círculos detectados
-	Imgcodecs.imwrite("./blancos.jpg", src);
-	List<Par> lista = new ArrayList<>();
-
-	// Mostrar resultados
-	for (Point p : whiteCircles) {
-	    System.out.println("Círculo blanco detectado en: (" + p.x + ", " + p.y + ")");
-	    Par pares = new Par(p.x, p.y);
-	    lista.add(pares);
-	}
-	// pasa a la clase que buscará las letras de los circulos
-	Busqueda busqueda = new Busqueda();
-	busqueda.busquedaLetras(lista);
-
-    }
-
-    public static void invertirOscurecer() throws IOException {
-	File file = new File(imagePath);
-	BufferedImage img = ImageIO.read(file);
-
-	// Invierte los valores RGB de cada pixel
-	for (int y = 0; y < img.getHeight(); y++) {
-	    for (int x = 0; x < img.getWidth(); x++) {
-		int pixel = img.getRGB(x, y);
-		int r = (pixel >> 16) & 0xff;
-		int g = (pixel >> 8) & 0xff;
-		int b = pixel & 0xff;
-		int nuevoPixel = (255 - r) << 16 | (255 - g) << 8 | (255 - b);
-		img.setRGB(x, y, nuevoPixel);
-	    }
-	}
-
-	// conviert blanco y negro
-	BufferedImage imagenNegra = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
-	List<Double> lista = new ArrayList<>();
-	for (int i = 0; i < img.getWidth(); i++) {
-	    for (int j = 0; j < img.getHeight(); j++) {
-		int pixel = img.getRGB(i, j);
-		int luminosidad = (pixel >> 16) & 0xFF;
-		if (luminosidad > 127) {
-		    imagenNegra.setRGB(i, j, 0xFFFFFFFF);
-		} else {
-		    imagenNegra.setRGB(i, j, 0x00000000);
+		if (src.empty()) {
+			System.out.println("No se pudo cargar la imagen");
+			return;
 		}
-	    }
-	    // lista.add(imagenNegra);
+
+		// Convertir la imagen a escala de grises necesario para que se vea mejor
+		Mat gray = new Mat();
+		Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+
+		// Aplicar desenfoque para reducir el ruido
+		Imgproc.GaussianBlur(gray, gray, new Size(9, 9), 2, 2);
+
+		// Detectar círculos utilizando la transformada de Hough
+		Mat circles = new Mat();
+		Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 25, 100, 30, 15, 50); // números
+		// que hay
+		// que jugar
+		// para que
+		// localize
+		// los
+		// circulos
+
+		// Crear una lista para almacenar los círculos blancos detectados
+		List<Point> whiteCircles = new ArrayList<>();
+
+		// Verificar cada círculo detectado
+		for (int i = 0; i < circles.cols(); i++) {
+			double[] circle = circles.get(0, i);
+			if (circle == null)
+				continue;
+			Point center = new Point(Math.round(circle[0]), Math.round(circle[1]));
+			int radius = (int) Math.round(circle[2]);
+
+			// Crear una máscara para el círculo
+			Mat mask = Mat.zeros(gray.size(), CvType.CV_8UC1);
+			Imgproc.circle(mask, center, radius, new Scalar(255, 255, 255), -1);
+
+			// Extraer la región del círculo de la imagen original
+			Mat circleROI = new Mat();
+			src.copyTo(circleROI, mask);
+
+			// Convertir la región del círculo a escala de grises y umbralizar
+			Mat circleGray = new Mat();
+			Imgproc.cvtColor(circleROI, circleGray, Imgproc.COLOR_BGR2GRAY);
+			Imgproc.threshold(circleGray, circleGray, 200, 255, Imgproc.THRESH_BINARY);
+
+			// Calcular la cantidad de píxeles blancos en el círculo
+			int whitePixels = Core.countNonZero(circleGray);
+
+			// Si la mayoría de los píxeles son blancos, añadimos el círculo a la lista de
+			// círculos blancos
+			if (whitePixels > (Math.PI * radius * radius * 0.8)) { // 70% de los píxeles son blancos
+				whiteCircles.add(center);
+				// Dibujar el círculo detectado en la imagen original
+				Imgproc.circle(src, center, radius, new Scalar(0, 255, 0), 3);
+			}
+		}
+
+		// Guardar la imagen resultante con los círculos detectados
+		Imgcodecs.imwrite("./blancos.jpg", src);
+		List<Par> lista = new ArrayList<>();
+
+		// Mostrar resultados
+		for (Point p : whiteCircles) {
+			System.out.println("Círculo blanco detectado en: (" + p.x + ", " + p.y + ")");
+			Par pares = new Par(p.x, p.y);
+			lista.add(pares);
+		}
+		// pasa a la clase que buscará las letras de los circulos
+		Busqueda busqueda = new Busqueda();
+		busqueda.busquedaLetras(lista);
+
 	}
 
-	ImageIO.write(imagenNegra, "jpg", new File("./bnarchivo-negro.jpg"));
-	buscarCirculos();
+	public static void invertirOscurecer() throws IOException {
+		File file = new File(imagePath);
+		BufferedImage img = ImageIO.read(file);
 
-    }
+		// Invierte los valores RGB de cada pixel
+		for (int y = 0; y < img.getHeight(); y++) {
+			for (int x = 0; x < img.getWidth(); x++) {
+				int pixel = img.getRGB(x, y);
+				int r = (pixel >> 16) & 0xff;
+				int g = (pixel >> 8) & 0xff;
+				int b = pixel & 0xff;
+				int nuevoPixel = (255 - r) << 16 | (255 - g) << 8 | (255 - b);
+				img.setRGB(x, y, nuevoPixel);
+			}
+		}
 
-    public static void buscarRespuestas() throws IOException {
-	imagePath = "src/correctorExamenes/examen2.jpg";
+		// conviert blanco y negro
+		BufferedImage imagenNegra = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+		List<Double> lista = new ArrayList<>();
+		for (int i = 0; i < img.getWidth(); i++) {
+			for (int j = 0; j < img.getHeight(); j++) {
+				int pixel = img.getRGB(i, j);
+				int luminosidad = (pixel >> 16) & 0xFF;
+				if (luminosidad > 127) {
+					imagenNegra.setRGB(i, j, 0xFFFFFFFF);
+				} else {
+					imagenNegra.setRGB(i, j, 0x00000000);
+				}
+			}
+			// lista.add(imagenNegra);
+		}
 
-	// Crear una instancia de Tesseract
-	ITesseract tesseract = new Tesseract();
+		ImageIO.write(imagenNegra, "jpg", new File("./bnarchivo-negro.jpg"));
+		buscarCirculos();
 
-	// Configurar la ruta del idioma (opcional)
-	String datapath = "src/resources/tessdata_best";
-	tesseract.setDatapath(new File(datapath).getPath());
-
-	// Configurar el idioma
-	tesseract.setLanguage("eng");
-
-	// Configurar para buscar solo números
-	tesseract.setTessVariable("tessedit_char_whitelist", "RESPUESTAS");
-
-	try {
-	    // Leer el archivo de imagen y convertirlo a BufferedImage
-	    BufferedImage image = ImageIO.read(new File(imagePath));
-
-	    // Realizar OCR en la imagen y obtener las palabras
-	    List<Word> words = tesseract.getWords(image, TessAPI.TessPageIteratorLevel.RIL_WORD);
-
-	    // Imprimir las coordenadas de cada palabra
-	    for (Word word : words) {
-		String text = word.getText();
-		int x = word.getBoundingBox().x;
-		int y = word.getBoundingBox().y;
-		int width = word.getBoundingBox().width;
-		int height = word.getBoundingBox().height;
-
-		System.out.println("Palabra: " + text);
-		System.out.println("Coordenadas: (" + x + ", " + y + ")");
-		System.out.println("Tamaño: " + width + "x" + height);
-		System.out.println();
-	    }
-	} catch (IOException e) {
-	    e.printStackTrace();
 	}
-	invertirOscurecer();
-	////// leeeeeeee
 
-    }
+	public static void buscarRespuestas() throws IOException {
+		imagePath = "src/correctorExamenes/examen2.jpg";
+
+		// Crear una instancia de Tesseract
+		ITesseract tesseract = new Tesseract();
+
+		// Configurar la ruta del idioma (opcional)
+		String datapath = "src/resources/tessdata_best";
+		tesseract.setDatapath(new File(datapath).getPath());
+
+		// Configurar el idioma
+		tesseract.setLanguage("eng");
+
+		// Configurar para buscar solo números
+		tesseract.setTessVariable("tessedit_char_whitelist", "RESPUESTAS");
+
+		try {
+			// Leer el archivo de imagen y convertirlo a BufferedImage
+			BufferedImage image = ImageIO.read(new File(imagePath));
+
+			// Realizar OCR en la imagen y obtener las palabras
+			List<Word> words = tesseract.getWords(image, TessAPI.TessPageIteratorLevel.RIL_WORD);
+
+			// Imprimir las coordenadas de cada palabra
+			for (Word word : words) {
+				String text = word.getText();
+				int x = word.getBoundingBox().x;
+				int y = word.getBoundingBox().y;
+				int width = word.getBoundingBox().width;
+				int height = word.getBoundingBox().height;
+
+				System.out.println("Palabra: " + text);
+				System.out.println("Coordenadas: (" + x + ", " + y + ")");
+				System.out.println("Tamaño: " + width + "x" + height);
+				System.out.println();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		invertirOscurecer();
+		////// leeeeeeee
+
+	}
 }
