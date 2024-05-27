@@ -75,26 +75,24 @@ public class Utilidades {
 	}
 
 	public void calcularNota(String indexCodigo) throws JSONException, IOException {
-
 		JSONArray plantillaString = json(indexCodigo);
 
 		BusquedaCirculos bCirculos = new BusquedaCirculos();
 		Map<Integer, String> examenAlumno = bCirculos.buscarRespuestas();
 		ArrayList<Integer> resultado = new ArrayList<>();
-		ArrayList<String> preguntaPlantilla = new ArrayList<String>();
 
 		for (int i = 1; i <= 40; i++) {
-			String preguntaPlantillaString = plantillaString.getString(i - 1).toUpperCase();
-			// System.out.print("preguntaPlantillaString " + preguntaPlantillaString);
-			String preguntaExamenString = examenAlumno.get(i);
-			// System.out.print("preguntaExamenString " + preguntaExamenString);
-			if (preguntaPlantillaString.equals(preguntaExamenString)) {
+			String preguntaPlantilla = plantillaString.getString(i - 1).toUpperCase();
+			String preguntaExamen = examenAlumno.get(i);
+			if (preguntaPlantilla.equals(preguntaExamen)) {
 				resultado.add(1);
 			} else {
 				resultado.add(0);
 			}
 
 		}
+		double notaFinal = resultado.stream().reduce(0, (a, b) -> a + b);
+		System.out.print(notaFinal / 4);
 		System.out.println(resultado);
 	}
 
