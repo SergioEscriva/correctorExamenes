@@ -216,7 +216,7 @@ public class BusquedaCirculos {
 
     }
 
-    public String calcularNota(JSONArray plantillaString) throws JSONException, IOException {
+    public double calcularNota(JSONArray plantillaString) throws JSONException, IOException {
 	// JSONArray plantillaString = utilidades.json(indexCodigo);
 
 	BusquedaCirculos bCirculos = new BusquedaCirculos();
@@ -234,8 +234,10 @@ public class BusquedaCirculos {
 
 	}
 	double notaFinal = resultado.stream().reduce(0, (a, b) -> a + b);
+	double notaReal = notaFinal / 4;
+
 	System.out.print(notaFinal / 4);
 	System.out.println(resultado);
-	return String.valueOf(notaFinal / 4);
+	return notaReal;
     }
 }

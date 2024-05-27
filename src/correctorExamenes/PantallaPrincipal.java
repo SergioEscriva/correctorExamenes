@@ -91,8 +91,12 @@ public class PantallaPrincipal extends JFrame {
 			String rutaExamen = dialogoFicheros.abrirExplorador();
 			BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
 			Map<Integer, String> examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
-			String notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
-			lblNotaCalculada.setText(notaFinal);
+			double notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
+			lblNotaCalculada.setText(String.valueOf(notaFinal));
+			if (notaFinal >= 5) {
+			    lblNotaCalculada.setForeground(Color.green);
+			}
+
 			lblExamenCorrecion.setText(examenalumnoMap.toString());
 		    } catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -154,7 +158,7 @@ public class PantallaPrincipal extends JFrame {
 
 	lblNotaCalculada = new JLabel("Nota de Examen");
 	lblNotaCalculada.setFont(new Font("Dialog", Font.BOLD, 16));
-	lblNotaCalculada.setForeground(Color.WHITE);
+	lblNotaCalculada.setForeground(Color.RED);
 	lblNotaCalculada.setBounds(37, 238, 259, 62);
 	panel.add(lblNotaCalculada);
 	// utilidades.codigoTest("00001");
