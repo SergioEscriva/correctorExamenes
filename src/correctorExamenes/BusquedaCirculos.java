@@ -103,7 +103,6 @@ public class BusquedaCirculos {
 
 		// Mostrar resultados
 		for (Point p : whiteCircles) {
-			System.out.println("Círculo blanco detectado en: (" + p.x + ", " + p.y + ")");
 			Par pares = new Par(p.x, p.y);
 			lista.add(pares);
 		}
