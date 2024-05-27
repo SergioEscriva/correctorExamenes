@@ -3,11 +3,13 @@ package correctorExamenes;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import utilidades.DialogoFicheros;
 import utilidades.Utilidades;
 
 public class PantallaPrincipal extends JFrame {
@@ -29,6 +32,9 @@ public class PantallaPrincipal extends JFrame {
     private static JSONArray listaPlantillas;
     private static JLabel lblPlantillaCorrecion;
     private static JFrame frame;
+    private static JLabel lblExamenCorrecion;
+    private static JLabel lblNotaCalculada;
+    private static JButton btnExamen;
 
     /**
      * Launch the application.
@@ -68,11 +74,38 @@ public class PantallaPrincipal extends JFrame {
 	contentPane.add(panel);
 	panel.setLayout(null);
 
-	JButton btnExamen = new JButton("Cargar Examen...");
+	btnExamen = new JButton("Cargar Examen...");
+	btnExamen.setEnabled(false);
 	btnExamen.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 	    }
 	});
+	btnExamen.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		try {
+		    System.out.println("abrir");
+		    try {
+			lblExamenCorrecion.setText("Cargando y corrigiendo examen...");
+			DialogoFicheros dialogoFicheros = new DialogoFicheros();
+			String rutaExamen = dialogoFicheros.abrirExplorador();
+			BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
+			Map<Integer, String> examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
+			String notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
+			lblNotaCalculada.setText(notaFinal);
+			lblExamenCorrecion.setText(examenalumnoMap.toString());
+		    } catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		    }
+		} catch (Exception e1) {
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		}
+		frame.setVisible(false);
+	    }
+	});
+
 	btnExamen.setBounds(58, 508, 183, 25);
 	panel.add(btnExamen);
 
@@ -90,7 +123,7 @@ public class PantallaPrincipal extends JFrame {
 	btnPlantilla.setBounds(58, 471, 183, 25);
 	panel.add(btnPlantilla);
 
-	JButton btnCorregir = new JButton("Corregir Exámen");
+	JButton btnCorregir = new JButton("Corregir Examen");
 	btnCorregir.setBounds(316, 471, 220, 62);
 	panel.add(btnCorregir);
 
@@ -104,10 +137,26 @@ public class PantallaPrincipal extends JFrame {
 	lblPlantillaCorrecion.setBounds(37, 104, 1039, 30);
 	panel.add(lblPlantillaCorrecion);
 
-	JLabel lblExamenCorrecion = new JLabel("Examen a corregir");
+	lblExamenCorrecion = new JLabel("Examen a corregir");
 	lblExamenCorrecion.setForeground(Color.WHITE);
 	lblExamenCorrecion.setBounds(37, 156, 1039, 30);
 	panel.add(lblExamenCorrecion);
+
+	JLabel lblExamen_1 = new JLabel("Examen Alumno");
+	lblExamen_1.setForeground(Color.WHITE);
+	lblExamen_1.setBounds(37, 142, 235, 15);
+	panel.add(lblExamen_1);
+
+	JLabel lblNota = new JLabel("Nota de Examen");
+	lblNota.setForeground(Color.WHITE);
+	lblNota.setBounds(37, 224, 235, 15);
+	panel.add(lblNota);
+
+	lblNotaCalculada = new JLabel("Nota de Examen");
+	lblNotaCalculada.setFont(new Font("Dialog", Font.BOLD, 16));
+	lblNotaCalculada.setForeground(Color.WHITE);
+	lblNotaCalculada.setBounds(37, 238, 259, 62);
+	panel.add(lblNotaCalculada);
 	// utilidades.codigoTest("00001");
 
     }
@@ -138,8 +187,8 @@ public class PantallaPrincipal extends JFrame {
 	panel.add(plantillaText);
 
 	// Botón de abrir plantilla
-	JButton nuevaPlantillaButton = new JButton("Abrir");
-	nuevaPlantillaButton.addMouseListener(new MouseAdapter() {
+	JButton cargarPlantillaButton = new JButton("Abrir");
+	cargarPlantillaButton.addMouseListener(new MouseAdapter() {
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
 		try {
@@ -155,14 +204,21 @@ public class PantallaPrincipal extends JFrame {
 		    // TODO Auto-generated catch block
 		    e1.printStackTrace();
 		}
+		btnExamen.setEnabled(true);
 		frame.setVisible(false);
 	    }
 	});
-	nuevaPlantillaButton.setBounds(20, 80, 80, 25);
-	panel.add(nuevaPlantillaButton);
+	cargarPlantillaButton.setBounds(20, 80, 80, 25);
+	panel.add(cargarPlantillaButton);
 
-	JButton registerButton = new JButton("Nuevo Código");
-	registerButton.setBounds(125, 80, 80, 25);
-	panel.add(registerButton);
+	JButton nuevaPlantillaButton = new JButton("Nueva Plantilla");
+	nuevaPlantillaButton.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+
+	    }
+	});
+	nuevaPlantillaButton.setBounds(125, 80, 80, 25);
+	panel.add(nuevaPlantillaButton);
     }
 }

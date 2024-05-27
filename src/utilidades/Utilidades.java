@@ -3,8 +3,6 @@ package utilidades;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -13,34 +11,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import correctorExamenes.BusquedaCirculos;
 import correctorExamenes.PantallaPrincipal;
 
 public class Utilidades {
 
     private static final String JSON_FILE_PATH = "src/Json/codigos.json";
-
-    public void calcularNota(String indexCodigo) throws JSONException, IOException {
-	JSONArray plantillaString = json(indexCodigo);
-
-	BusquedaCirculos bCirculos = new BusquedaCirculos();
-	Map<Integer, String> examenAlumno = bCirculos.buscarRespuestas();
-	ArrayList<Integer> resultado = new ArrayList<>();
-
-	for (int i = 1; i <= 40; i++) {
-	    String preguntaPlantilla = plantillaString.getString(i - 1).toUpperCase();
-	    String preguntaExamen = examenAlumno.get(i);
-	    if (preguntaPlantilla.equals(preguntaExamen)) {
-		resultado.add(1);
-	    } else {
-		resultado.add(0);
-	    }
-
-	}
-	double notaFinal = resultado.stream().reduce(0, (a, b) -> a + b);
-	System.out.print(notaFinal / 4);
-	System.out.println(resultado);
-    }
 
     public JSONArray json(String codigo) throws JSONException, IOException {
 	System.out.println("json");

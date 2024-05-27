@@ -59,7 +59,7 @@ public class DialogoFicheros extends JFrame {
 	botonSave.setBounds(230, 66, 117, 25);
 	Jpanel1.add(botonSave);
 
-	JLabel label1 = new JLabel("Selecciona el Archivo Zip a Editar");
+	JLabel label1 = new JLabel("Selecciona Exámen en JPG para Corregir");
 	label1.setBounds(90, 12, 234, 15);
 	Jpanel1.add(label1);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,7 +72,7 @@ public class DialogoFicheros extends JFrame {
 	JFileChooser chooser = new JFileChooser();
 
 	// Filtro para que muestre sólo los zip
-	FileNameExtensionFilter filter = new FileNameExtensionFilter("Comprimidos Zip", "zip");
+	FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg");
 	chooser.setFileFilter(filter);
 	////////
 	// Filtro para seleccionar Carpeta

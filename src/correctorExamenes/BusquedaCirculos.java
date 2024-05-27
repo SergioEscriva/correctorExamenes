@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -24,12 +25,15 @@ import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.TessAPI;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Word;
+import utilidades.Utilidades;
 
 public class BusquedaCirculos {
     static {
 	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
+    private static Utilidades utilidades = new Utilidades();
     private static String imagePath;
+    private static Map<Integer, String> examenAlumno;
 
     public static Map<Integer, String> buscarCirculos() throws JSONException, IOException {
 	// Cargar la imagen
@@ -123,12 +127,12 @@ public class BusquedaCirculos {
 	}
 	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
-	Map<Integer, String> examenAlumno = busqueda.busquedaLetras(lista);
+	examenAlumno = busqueda.busquedaLetras(lista);
 	return examenAlumno;
 
     }
 
-    public static void invertirOscurecer() throws IOException, JSONException {
+    public static void invertirOscurecer(String imagePath) throws IOException, JSONException {
 	File file = new File(imagePath);
 	BufferedImage img = ImageIO.read(file);
 
@@ -165,8 +169,9 @@ public class BusquedaCirculos {
 
     }
 
-    public static Map<Integer, String> buscarRespuestas() throws IOException, JSONException {
-	imagePath = "src/correctorExamenes/examen3.jpg"; /// este es la imagen del examen que leerá
+    public static Map<Integer, String> buscarRespuestas(String imagePath) throws IOException, JSONException {
+	// imagePath = "src/correctorExamenes/examen3.jpg"; /// este es la imagen del
+	// examen que leerá
 
 	// Crear una instancia de Tesseract
 	ITesseract tesseract = new Tesseract();
@@ -204,10 +209,33 @@ public class BusquedaCirculos {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
-	invertirOscurecer();
-	Map<Integer, String> examenAlumno = buscarCirculos();
+	invertirOscurecer(imagePath);
+	examenAlumno = buscarCirculos();
 	return examenAlumno;
 	////// leeeeeeee
 
+    }
+
+    public String calcularNota(JSONArray plantillaString) throws JSONException, IOException {
+	// JSONArray plantillaString = utilidades.json(indexCodigo);
+
+	BusquedaCirculos bCirculos = new BusquedaCirculos();
+	// Map<Integer, String> examenAlumno = bCirculos.buscarRespuestas(imagePath);
+	ArrayList<Integer> resultado = new ArrayList<>();
+
+	for (int i = 1; i <= 40; i++) {
+	    String preguntaPlantilla = plantillaString.getString(i - 1).toUpperCase();
+	    String preguntaExamen = examenAlumno.get(i);
+	    if (preguntaPlantilla.equals(preguntaExamen)) {
+		resultado.add(1);
+	    } else {
+		resultado.add(0);
+	    }
+
+	}
+	double notaFinal = resultado.stream().reduce(0, (a, b) -> a + b);
+	System.out.print(notaFinal / 4);
+	System.out.println(resultado);
+	return String.valueOf(notaFinal / 4);
     }
 }
