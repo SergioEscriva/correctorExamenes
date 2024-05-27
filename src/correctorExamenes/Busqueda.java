@@ -1,8 +1,6 @@
 package correctorExamenes;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,30 +10,35 @@ public class Busqueda {
     public void busquedaLetras(List<Par> coordenadas) {
 	List<Par> listaFinal = new ArrayList<>();
 	Map<Integer, String> listaNumeros = new HashMap<>();
-	// Ordenar la lista
-	Collections.sort(coordenadas, new Comparator<Par>() {
-	    @Override
-	    public int compare(Par p1, Par p2) {
-		int compareFirst = Double.compare(p1.getNumeroX(), p2.getNumeroX());
-		if (compareFirst != 0) {
-		    return compareFirst;
-		} else {
-		    return Double.compare(p1.getNumeroY(), p2.getNumeroY());
-		}
-	    }
-	});
+	for (int i = 1; i <= 40; i++) {
+	    listaNumeros.put(i, "Empty");
+	}
+//	System.out.println("AAA " + listaNumeros);
+//	System.out.println(coordenadas);
+//	// Ordenar la lista
+//	Collections.sort(coordenadas, new Comparator<Par>() {
+//	    @Override
+//	    public int compare(Par p1, Par p2) {
+//		int compareFirst = Double.compare(p1.getNumeroX(), p2.getNumeroX());
+//		if (compareFirst != 0) {
+//		    return compareFirst;
+//		} else {
+//		    return Double.compare(p1.getNumeroY(), p2.getNumeroY(),);
+//		}
+//	    }
+//	});
+	System.out.println(coordenadas);
 
 	// Extrae las filas y le pone la letra según la distacia en x
 	for (Par fila : coordenadas) {
 	    String filaString = fila.toString();
-
 	    double stringX = fila.getNumeroX(); // x izquierda a derecha
 	    double stringY = fila.getNumeroY(); // y arriba a bajo
 
-	    // Primera Columna
-	    int intB = 235; // 265
-	    int intC = 300; // 330
-	    int intD = 360; // 390
+	    // Primera Fila
+	    int intB = 235; // 235 -- 235
+	    int intC = 300; // 330 -- 300
+	    int intD = 360; // 390 --360
 
 	    int entreColumnas = 485; // entre columnas de a - a 485
 
@@ -81,9 +84,7 @@ public class Busqueda {
 		int numeroPregunta = numeroPregunta(fila);
 		listaNumeros.put(numeroPregunta + 10, "D");
 		listaFinal.add(fila);
-	    } // else {
-	      // System.out.println("Error de lectura " + fila);
-	      // }
+	    }
 
 	    int terceraColumna = (entreColumnas * 2);
 
@@ -99,7 +100,7 @@ public class Busqueda {
 		int numeroPregunta = numeroPregunta(fila);
 		listaNumeros.put(numeroPregunta + 20, "C");
 		listaFinal.add(fila);
-	    } else if (stringX > (intD + terceraColumna) && stringX < 1335) {
+	    } else if (stringX > (intD + terceraColumna) && stringX < 1385) {
 		int numeroPregunta = numeroPregunta(fila);
 		listaNumeros.put(numeroPregunta + 20, "D");
 		listaFinal.add(fila);
@@ -107,7 +108,7 @@ public class Busqueda {
 
 	    int cuartaColumna = (entreColumnas * 3);
 
-	    if (stringX < (intB + cuartaColumna) && stringX > 1335) {
+	    if (stringX < (intB + cuartaColumna) && stringX > 1395) {
 		int numeroPregunta = numeroPregunta(fila);
 		listaNumeros.put(numeroPregunta + 30, "A");
 		letra = "A";
@@ -125,18 +126,19 @@ public class Busqueda {
 	    }
 
 	}
-	// Ordenar la lista
-	Collections.sort(listaFinal, new Comparator<Par>() {
-	    @Override
-	    public int compare(Par p1, Par p2) {
-		int compareFirst = Double.compare(p2.getNumeroY(), p1.getNumeroY());
-		if (compareFirst != 0) {
-		    return compareFirst;
-		} else {
-		    return Double.compare(p2.getNumeroX(), p1.getNumeroX());
-		}
-	    }
-	});
+//	System.out.println(listaNumeros);
+//	// Ordenar la lista
+//	Collections.sort(listaFinal, new Comparator<Par>() {
+//	    @Override
+//	    public int compare(Par p1, Par p2) {
+//		int compareFirst = Double.compare(p2.getNumeroY(), p1.getNumeroY());
+//		if (compareFirst != 0) {
+//		    return compareFirst;
+//		} else {
+//		    return Double.compare(p2.getNumeroX(), p1.getNumeroX());
+//		}
+//	    }
+//	});
 	System.out.println(listaNumeros);
 
     }
