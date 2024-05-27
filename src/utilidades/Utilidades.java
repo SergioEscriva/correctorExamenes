@@ -6,66 +6,45 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import correctorExamenes.BusquedaCirculos;
 
 public class Utilidades {
-	/*
-	 * public ArrayList<String[]> leerJson() throws Exception {
-	 * 
-	 * 
-	 * 
-	 * ArrayList<String[]> preguntasRespuestas = new ArrayList<>();
-	 * 
-	 * FileReader fileReader = null; BufferedReader bufferedReader = null; try {
-	 * fileReader = new FileReader(nombreArchivo); bufferedReader = new
-	 * BufferedReader(fileReader); String linea; while ((linea =
-	 * bufferedReader.readLine()) != null) { String[] preguntaRespuesta =
-	 * linea.split(SEPARADOR_CAMPO); preguntasRespuestas.add(preguntaRespuesta);
-	 * 
-	 * } } catch (IOException e) { System.out.println("Excepción leyendo archivo: "
-	 * + e.getMessage()); } finally { try { if (fileReader != null) {
-	 * fileReader.close(); } if (bufferedReader != null) { bufferedReader.close(); }
-	 * } catch (IOException e) { System.out.println("Excepción cerrando: " +
-	 * e.getMessage()); }
-	 * 
-	 * return preguntasRespuestas; } }
-	 * 
-	 * public static ArrayList<String> CrearListaStrings(String root, String
-	 * fileName, String fileFormat, int size) { ArrayList<String> ListaTemp = new
-	 * ArrayList<>(); for (int i = 0; i < size; i++) { ListaTemp.add(root + fileName
-	 * + i + fileFormat); } return ListaTemp; }
-	 */
-	// JSON
+
 	private static final String JSON_FILE_PATH = "src/Json/codigos.json";
 
-	public static String codigoTest(String indexCodigo) throws JSONException, IOException {
-		System.out.println("leyendoJson");
-		StringBuilder sb;
-		try (BufferedReader br = new BufferedReader(new FileReader(JSON_FILE_PATH))) // Lee el json con BufferedReader
-
-		{
-
-			// Convierte la lectura del json en un string con StringBuilder
-			sb = new StringBuilder();
-			String line;
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-			System.out.println(" SB " + sb);
-
-			JSONArray jsonArray = new JSONArray(sb.toString());
-			System.out.println(jsonArray.getJSONObject(0).get(indexCodigo));
-
-			return jsonArray.toString();
-		} catch (IOException e) { // | JSONException e) {
-
-			System.out.println("BR error");
-			return "Error al leer el archivo JSON";
-		}
-	}
+//	public static JSONArray codigoTest() throws JSONException, IOException {
+//		System.out.println("leyendoJson");
+//		StringBuilder sb;
+//		try (BufferedReader br = new BufferedReader(new FileReader(JSON_FILE_PATH))) // Lee el json con BufferedReader
+//
+//		{
+//
+//			// Convierte la lectura del json en un string con StringBuilder
+//			sb = new StringBuilder();
+//			String line;
+//			while ((line = br.readLine()) != null) {
+//				sb.append(line);
+//			}
+//			System.out.println(" SB " + sb);
+//
+//			JSONArray jsonArray = new JSONArray(sb.toString());
+//
+//			// System.out.println(jsonArray.getJSONObject(0).get(indexCodigo));
+//
+//			return jsonArray;
+//		} catch (IOException e) { // | JSONException e) {
+//
+//			System.out.println("BR error");
+//			return null;
+//		}
+//	}
 
 	public static String respuestasCorrectas(int indexCodigo) throws FileNotFoundException {
 		try (BufferedReader br = new BufferedReader(new FileReader(JSON_FILE_PATH))) // Lee el JSON con BufferedReader
@@ -94,4 +73,55 @@ public class Utilidades {
 		}
 		return list;
 	}
+
+	public void calcularNota(String indexCodigo) throws JSONException, IOException {
+
+		JSONArray plantillaString = json(indexCodigo);
+
+		BusquedaCirculos bCirculos = new BusquedaCirculos();
+		Map<Integer, String> examenAlumno = bCirculos.buscarRespuestas();
+		ArrayList<Integer> resultado = new ArrayList<>();
+		ArrayList<String> preguntaPlantilla = new ArrayList<String>();
+
+		for (int i = 1; i <= 40; i++) {
+			String preguntaPlantillaString = plantillaString.getString(i - 1).toUpperCase();
+			// System.out.print("preguntaPlantillaString " + preguntaPlantillaString);
+			String preguntaExamenString = examenAlumno.get(i);
+			// System.out.print("preguntaExamenString " + preguntaExamenString);
+			if (preguntaPlantillaString.equals(preguntaExamenString)) {
+				resultado.add(1);
+			} else {
+				resultado.add(0);
+			}
+
+		}
+		System.out.println(resultado);
+	}
+
+	public JSONArray json(String codigo) throws JSONException {
+
+		String filePath = "src/Json/codigos.json"; // Reemplaza con la ruta correcta
+		JSONArray list = new JSONArray();
+		try {
+			// Cargar el archivo JSON
+			FileReader is = new FileReader(filePath);
+			JSONTokener tokener = new JSONTokener(is);
+			JSONArray jsonArray = new JSONArray(tokener);
+
+			// Buscar y extraer la lista correspondiente al código "00001"
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				if (jsonObject.has(codigo)) {
+					list = jsonObject.getJSONArray(codigo);
+					// System.out.println("Lista para el código " + codigo + " " + list.toString());
+					break;
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

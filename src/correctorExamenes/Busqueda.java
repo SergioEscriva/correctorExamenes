@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Busqueda {
 
-	public void busquedaLetras(List<Par> coordenadas) {
+	public Map<Integer, String> busquedaLetras(List<Par> coordenadas) {
 		List<Par> listaFinal = new ArrayList<>();
 		Map<Integer, String> listaNumeros = new HashMap<>();
 		for (int i = 1; i <= 40; i++) {
@@ -113,7 +113,7 @@ public class Busqueda {
 		}
 
 		System.out.println(listaNumeros);
-
+		return listaNumeros;
 	}
 
 	public Integer numeroPregunta(Par fila) {

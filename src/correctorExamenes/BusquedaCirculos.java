@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -28,20 +29,14 @@ public class BusquedaCirculos {
 	}
 	private static String imagePath;
 
-	public static void main(String[] args) throws IOException {
-
-		buscarRespuestas();
-
-	}
-
-	public static void buscarCirculos() {
+	public static Map<Integer, String> buscarCirculos() {
 		// Cargar la imagen
 		String imagePathInv = "./bnarchivo-negro.jpg";//
 		Mat src = Imgcodecs.imread(imagePathInv);
 
 		if (src.empty()) {
 			System.out.println("No se pudo cargar la imagen");
-			return;
+			return null;
 		}
 
 		// Convertir la imagen a escala de grises necesario para que se vea mejor
@@ -108,7 +103,8 @@ public class BusquedaCirculos {
 		}
 		// pasa a la clase que buscará las letras de los circulos
 		Busqueda busqueda = new Busqueda();
-		busqueda.busquedaLetras(lista);
+		Map<Integer, String> examenAlumno = busqueda.busquedaLetras(lista);
+		return examenAlumno;
 
 	}
 
@@ -149,7 +145,7 @@ public class BusquedaCirculos {
 
 	}
 
-	public static void buscarRespuestas() throws IOException {
+	public static Map<Integer, String> buscarRespuestas() throws IOException {
 		imagePath = "src/correctorExamenes/examen2.jpg";
 
 		// Crear una instancia de Tesseract
@@ -189,6 +185,8 @@ public class BusquedaCirculos {
 			e.printStackTrace();
 		}
 		invertirOscurecer();
+		Map<Integer, String> examenAlumno = buscarCirculos();
+		return examenAlumno;
 		////// leeeeeeee
 
 	}

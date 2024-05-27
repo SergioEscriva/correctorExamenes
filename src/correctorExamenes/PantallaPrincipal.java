@@ -71,12 +71,19 @@ public class PantallaPrincipal extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				crearVentanaExamen();
+				try {
+					utilidades.calcularNota("00001");
+					utilidades.json("00002");
+				} catch (JSONException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
 		btnPlantilla.setBounds(68, 198, 117, 25);
 		panel.add(btnPlantilla);
-		utilidades.codigoTest("00001");
+		// utilidades.codigoTest("00001");
 
 	}
 
