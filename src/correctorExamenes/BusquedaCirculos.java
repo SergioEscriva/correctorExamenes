@@ -240,29 +240,48 @@ public class BusquedaCirculos {
 	return blancoMap;
     }
 
-    public double calcularNota(JSONArray plantillaString) throws JSONException, IOException {
+    public Map<String, String> calcularNota(JSONArray plantillaString) throws JSONException, IOException {
 	// JSONArray plantillaString = utilidades.json(indexCodigo);
 
 	// BusquedaCirculos bCirculos = new BusquedaCirculos();
 	// Map<Integer, String> examenAlumno = bCirculos.buscarRespuestas(imagePath);
+	Map<String, String> notas = new HashMap<>();
 	System.out.println("leerNotas");
 	ArrayList<Integer> resultado = new ArrayList<>();
+	int aciertos = 0;
+	int falladas = 0;
+	int blanco = 0;
+	int nulas = 0;
 
 	for (int i = 1; i <= 40; i++) {
 	    String preguntaPlantilla = plantillaString.getString(i - 1).toUpperCase();
 	    String preguntaExamen = examenAlumno.get(i);
+	    System.out.println("preguna " + preguntaExamen);
 	    if (preguntaPlantilla.equals(preguntaExamen)) {
 		resultado.add(1);
+		aciertos += 1;
+	    } else if (preguntaExamen.equals("Nula")) {
+		nulas += 1;
+
+	    } else if (preguntaExamen.equals("Empty")) {
+		blanco += 1;
+
 	    } else {
 		resultado.add(0);
-	    }
+		falladas += 1;
 
+	    }
 	}
 	double notaFinal = resultado.stream().reduce(0, (a, b) -> a + b);
 	double notaReal = notaFinal / 4;
 
 	System.out.print(notaFinal / 4);
 	System.out.println(resultado);
-	return notaReal;
+	notas.put("notaFinal", String.valueOf(notaReal));
+	notas.put("aciertos", String.valueOf(aciertos));
+	notas.put("fallos", String.valueOf(falladas));
+	notas.put("blanco", String.valueOf(blanco));
+	notas.put("nulas", String.valueOf(nulas));
+	return notas;
     }
 }

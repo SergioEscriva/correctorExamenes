@@ -32,17 +32,20 @@ public class PantallaPrincipal extends JFrame {
     private JPanel contentPane;
     private JPanel panel;
     private static Utilidades utilidades = new Utilidades();
+    private static BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
+
     private static JSONArray listaPlantillas;
     private static JLabel lblPlantillaCorrecion;
     private static JFrame frame;
     private static JLabel lblExamenCorrecion;
     private static JLabel lblNotaCalculada;
+    private static JLabel lblAcertadas_2;
+    private static JLabel lblFalladas_2;
+    private static JLabel lblEnBlanco;
+    private static JLabel lblNulas_2;
     private static JButton btnExamen;
     private JTextField tfIntroducirPlantilla;
 
-    /**
-     * Launch the application.
-     */
     public static void main(String[] args) {
 	EventQueue.invokeLater(new Runnable() {
 	    public void run() {
@@ -57,12 +60,6 @@ public class PantallaPrincipal extends JFrame {
 	});
     }
 
-    /**
-     * Create the frame.
-     * 
-     * @throws JSONException
-     * @throws IOException
-     */
     public PantallaPrincipal() throws JSONException, IOException {
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 1091, 571);
@@ -80,10 +77,9 @@ public class PantallaPrincipal extends JFrame {
 	contentPane.add(panel);
 	panel.setLayout(null);
 
+	// Botón cargar y corregir examen
 	btnExamen = new JButton();
-
 	String texto = "Cargar y Corregir...";
-
 	btnExamen.setText(texto);
 	btnExamen.setEnabled(false);
 	btnExamen.addActionListener(new ActionListener() {
@@ -100,6 +96,7 @@ public class PantallaPrincipal extends JFrame {
 	btnExamen.setBounds(283, 434, 206, 62);
 	panel.add(btnExamen);
 
+	// Botón cargar plantilla
 	JButton btnPlantilla = new JButton("Cargar Plantilla...");
 	btnPlantilla.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent arg0) {
@@ -123,7 +120,7 @@ public class PantallaPrincipal extends JFrame {
 		    e1.printStackTrace();
 		}
 		btnExamen.setEnabled(true);
-		frame.setVisible(false);
+
 	    }
 
 	});
@@ -182,22 +179,22 @@ public class PantallaPrincipal extends JFrame {
 	lblNulas.setBounds(509, 317, 88, 15);
 	panel.add(lblNulas);
 
-	JLabel lblNulas_2 = new JLabel("0");
+	lblNulas_2 = new JLabel("0");
 	lblNulas_2.setForeground(Color.WHITE);
 	lblNulas_2.setBounds(612, 316, 88, 15);
 	panel.add(lblNulas_2);
 
-	JLabel lblEnBlanco = new JLabel("0");
+	lblEnBlanco = new JLabel("0");
 	lblEnBlanco.setForeground(Color.WHITE);
 	lblEnBlanco.setBounds(612, 289, 88, 15);
 	panel.add(lblEnBlanco);
 
-	JLabel lblFalladas_2 = new JLabel("0");
+	lblFalladas_2 = new JLabel("0");
 	lblFalladas_2.setForeground(Color.WHITE);
 	lblFalladas_2.setBounds(612, 262, 88, 15);
 	panel.add(lblFalladas_2);
 
-	JLabel lblAcertadas_2 = new JLabel("0");
+	lblAcertadas_2 = new JLabel("0");
 	lblAcertadas_2.setForeground(Color.WHITE);
 	lblAcertadas_2.setBounds(612, 237, 88, 15);
 	panel.add(lblAcertadas_2);
@@ -239,19 +236,31 @@ public class PantallaPrincipal extends JFrame {
 	try {
 	    System.out.println("abrir");
 	    try {
+		// poner todo a cero
+		lblNotaCalculada.setText(String.valueOf("Sin Calificación"));
+		lblAcertadas_2.setText(String.valueOf("0"));
+		lblFalladas_2.setText(String.valueOf("0"));
+		lblEnBlanco.setText(String.valueOf("0"));
+		lblNulas_2.setText(String.valueOf("0"));
+
 		lblExamenCorrecion.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblExamenCorrecion.setForeground(Color.YELLOW);
 		lblExamenCorrecion.setText("Cargando y corrigiendo examen");
 		DialogoFicheros dialogoFicheros = new DialogoFicheros();
 		String rutaExamen = dialogoFicheros.abrirExplorador();
 
-		BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
+		// BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
 		Map<Integer, String> examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
 		if (!examenalumnoMap.isEmpty()) {
-		    double notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
+		    Map<String, String> notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
 		    lblNotaCalculada.setForeground(Color.RED);
-		    lblNotaCalculada.setText(String.valueOf(notaFinal));
-		    if (notaFinal >= 5) {
+		    lblNotaCalculada.setText(String.valueOf(notaFinal.get("notaFinal")));
+		    lblAcertadas_2.setText(String.valueOf(notaFinal.get("aciertos")));
+		    lblFalladas_2.setText(String.valueOf(notaFinal.get("fallos")));
+		    lblEnBlanco.setText(String.valueOf(notaFinal.get("blanco")));
+		    lblNulas_2.setText(String.valueOf(notaFinal.get("nulas")));
+
+		    if (Double.valueOf(notaFinal.get("notaFinal")) >= 5) {
 			lblNotaCalculada.setForeground(Color.green);
 		    }
 
@@ -274,7 +283,6 @@ public class PantallaPrincipal extends JFrame {
 	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
-	frame.setVisible(false);
 
     }
 }
