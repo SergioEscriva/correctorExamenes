@@ -86,17 +86,21 @@ public class PantallaPrincipal extends JFrame {
 		try {
 		    System.out.println("abrir");
 		    try {
-			lblExamenCorrecion.setText("Cargando y corrigiendo examen...");
+			lblExamenCorrecion.setForeground(Color.YELLOW);
+			lblExamenCorrecion.setText("Cargando y corrigiendo examen");
 			DialogoFicheros dialogoFicheros = new DialogoFicheros();
 			String rutaExamen = dialogoFicheros.abrirExplorador();
+
 			BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
 			Map<Integer, String> examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
+
 			double notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
 			lblNotaCalculada.setText(String.valueOf(notaFinal));
 			if (notaFinal >= 5) {
 			    lblNotaCalculada.setForeground(Color.green);
 			}
 
+			lblExamenCorrecion.setForeground(Color.WHITE);
 			lblExamenCorrecion.setText(examenalumnoMap.toString());
 		    } catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -161,6 +165,46 @@ public class PantallaPrincipal extends JFrame {
 	lblNotaCalculada.setForeground(Color.RED);
 	lblNotaCalculada.setBounds(37, 238, 259, 62);
 	panel.add(lblNotaCalculada);
+
+	JLabel lblAcertadas = new JLabel("Acertadas: ");
+	lblAcertadas.setForeground(Color.WHITE);
+	lblAcertadas.setBounds(509, 238, 88, 15);
+	panel.add(lblAcertadas);
+
+	JLabel lblFalladas = new JLabel("Falladas: ");
+	lblFalladas.setForeground(Color.WHITE);
+	lblFalladas.setBounds(509, 263, 88, 15);
+	panel.add(lblFalladas);
+
+	JLabel lblBlanco = new JLabel("En Blanco: ");
+	lblBlanco.setForeground(Color.WHITE);
+	lblBlanco.setBounds(509, 290, 88, 15);
+	panel.add(lblBlanco);
+
+	JLabel lblNulas = new JLabel("Nulas:  ");
+	lblNulas.setForeground(Color.WHITE);
+	lblNulas.setBounds(509, 317, 88, 15);
+	panel.add(lblNulas);
+
+	JLabel lblNulas_2 = new JLabel("Nulas");
+	lblNulas_2.setForeground(Color.WHITE);
+	lblNulas_2.setBounds(612, 316, 88, 15);
+	panel.add(lblNulas_2);
+
+	JLabel lblEnBlanco = new JLabel("En Blanco");
+	lblEnBlanco.setForeground(Color.WHITE);
+	lblEnBlanco.setBounds(612, 289, 88, 15);
+	panel.add(lblEnBlanco);
+
+	JLabel lblFalladas_2 = new JLabel("Falladas");
+	lblFalladas_2.setForeground(Color.WHITE);
+	lblFalladas_2.setBounds(612, 262, 88, 15);
+	panel.add(lblFalladas_2);
+
+	JLabel lblAcertadas_2 = new JLabel("Acertadas");
+	lblAcertadas_2.setForeground(Color.WHITE);
+	lblAcertadas_2.setBounds(612, 237, 88, 15);
+	panel.add(lblAcertadas_2);
 	// utilidades.codigoTest("00001");
 
     }
