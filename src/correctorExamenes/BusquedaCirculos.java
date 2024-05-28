@@ -35,7 +35,7 @@ public class BusquedaCirculos {
     private static String imagePath;
     private static Map<Integer, String> examenAlumno;
 
-    public static Map<Integer, String> buscarCirculos() throws JSONException, IOException {
+    public static Map<Integer, String> buscarCirculos(int y) throws JSONException, IOException {
 	// Cargar la imagen
 	String imagePathInv = "./bnarchivo-negro.jpg";//
 	Mat src = Imgcodecs.imread(imagePathInv);
@@ -127,12 +127,12 @@ public class BusquedaCirculos {
 	}
 	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
-	examenAlumno = busqueda.busquedaLetras(lista);
+	examenAlumno = busqueda.busquedaLetras(lista, y);
 	return examenAlumno;
 
     }
 
-    public static void invertirOscurecer(String imagePath) throws IOException, JSONException {
+    public static void invertirOscurecer(String imagePath, int intY) throws IOException, JSONException {
 	File file = new File(imagePath);
 	BufferedImage img = ImageIO.read(file);
 
@@ -165,7 +165,7 @@ public class BusquedaCirculos {
 	}
 
 	ImageIO.write(imagenNegra, "jpg", new File("./bnarchivo-negro.jpg")); // no tocar
-	buscarCirculos();
+	// buscarCirculos(intY);
 
     }
 
@@ -185,7 +185,7 @@ public class BusquedaCirculos {
 
 	// Configurar para buscar solo números
 	tesseract.setTessVariable("tessedit_char_whitelist", "RESPUESTAS");
-
+	int y = 0;
 	try {
 	    // Leer el archivo de imagen y convertirlo a BufferedImage
 	    BufferedImage image = ImageIO.read(new File(imagePath));
@@ -197,7 +197,7 @@ public class BusquedaCirculos {
 	    for (Word word : words) {
 		String text = word.getText();
 		int x = word.getBoundingBox().x;
-		int y = word.getBoundingBox().y;
+		y = word.getBoundingBox().y;
 		int width = word.getBoundingBox().width;
 		int height = word.getBoundingBox().height;
 
@@ -209,10 +209,9 @@ public class BusquedaCirculos {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
-	invertirOscurecer(imagePath);
-	examenAlumno = buscarCirculos();
+	invertirOscurecer(imagePath, y);
+	examenAlumno = buscarCirculos(y);
 	return examenAlumno;
-	////// leeeeeeee
 
     }
 
