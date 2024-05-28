@@ -45,27 +45,27 @@ public class BusquedaCirculos {
 	    return null;
 	}
 
-	// Convertir la imagen a escala de grises necesario para que se vea mejor
+//	// Convertir la imagen a escala de grises necesario para que se vea mejor
 	Mat gray = new Mat();
 	Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
-
-	// Contar la cantidad de píxeles blancos para saber si está mal escaneada
-	int whitePixelsTotal = Core.countNonZero(gray);
-
-	// Calcular el porcentaje de píxeles negros porque la imagen está en negativo
-	double totalPixelsTotal = gray.rows() * gray.cols();
-	double whitePercentage = (whitePixelsTotal / totalPixelsTotal) * 100;
-
-	System.out.println("Cantidad de píxeles blancos: " + whitePixelsTotal);
-	System.out.println("Porcentaje de píxeles blancos: " + whitePercentage + "%");
-
-	if (whitePercentage < 24.6) {
-	    JOptionPane.showMessageDialog(null,
-		    "Error en la resolución de la imagen, intenta escanearla lo más centrada posible, gracias.",
-		    "Resolución Erronea", JOptionPane.INFORMATION_MESSAGE);
-	    PantallaPrincipal principal = new PantallaPrincipal();
-	    return null;
-	}
+//
+//	// Contar la cantidad de píxeles blancos para saber si está mal escaneada
+//	int whitePixelsTotal = Core.countNonZero(gray);
+//
+//	// Calcular el porcentaje de píxeles negros porque la imagen está en negativo
+//	double totalPixelsTotal = gray.rows() * gray.cols();
+//	double whitePercentage = (whitePixelsTotal / totalPixelsTotal) * 100;
+//
+//	System.out.println("Cantidad de píxeles blancos: " + whitePixelsTotal);
+//	System.out.println("Porcentaje de píxeles blancos: " + whitePercentage + "%");
+//
+//	if (whitePercentage < 24.76) { // 24.76
+//	    JOptionPane.showMessageDialog(null,
+//		    "Error en la resolución de la imagen, intenta escanearla lo más centrada posible, gracias.",
+//		    "Resolución Erronea", JOptionPane.INFORMATION_MESSAGE);
+//	    PantallaPrincipal principal = new PantallaPrincipal();
+//	    return null;
+//	}
 
 	// Aplicar desenfoque para reducir el ruido
 	Imgproc.GaussianBlur(gray, gray, new Size(9, 9), 2, 2);
@@ -186,17 +186,19 @@ public class BusquedaCirculos {
 	// Configurar para buscar solo números
 	tesseract.setTessVariable("tessedit_char_whitelist", "RESPUESTAS");
 	int y = 0;
+	int x = 0;
+	int tamanoImagen = 0;
 	try {
 	    // Leer el archivo de imagen y convertirlo a BufferedImage
 	    BufferedImage image = ImageIO.read(new File(imagePath));
-
+	    tamanoImagen = image.getWidth();
 	    // Realizar OCR en la imagen y obtener las palabras
 	    List<Word> words = tesseract.getWords(image, TessAPI.TessPageIteratorLevel.RIL_WORD);
 
 	    // Imprimir las coordenadas de cada palabra
 	    for (Word word : words) {
 		String text = word.getText();
-		int x = word.getBoundingBox().x;
+		x = word.getBoundingBox().x;
 		y = word.getBoundingBox().y;
 		int width = word.getBoundingBox().width;
 		int height = word.getBoundingBox().height;
@@ -209,6 +211,23 @@ public class BusquedaCirculos {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
+
+	// Comprueba que la imagen esté centrada según la palabra Respuestas.
+	int referenciaRespuesta = tamanoImagen - 234;
+	int tamanoReferenciaDerecha = referenciaRespuesta - x;
+	int comparacion = tamanoReferenciaDerecha - x;
+
+	System.out.println(
+		tamanoImagen + " <> " + referenciaRespuesta + " <> " + tamanoReferenciaDerecha + " <> " + comparacion);
+	if (comparacion >= 60 || comparacion <= -60) {
+	    JOptionPane.showMessageDialog(null,
+		    "Error en la resolución de la imagen, intenta escanearla lo más centrada posible, gracias.",
+		    "Resolución Erronea", JOptionPane.INFORMATION_MESSAGE);
+	    PantallaPrincipal principal = new PantallaPrincipal();
+	    principal.abrirExamen();
+
+	}
+	System.out.println("final");
 	invertirOscurecer(imagePath, y);
 	examenAlumno = buscarCirculos(y);
 	return examenAlumno;
@@ -218,8 +237,9 @@ public class BusquedaCirculos {
     public double calcularNota(JSONArray plantillaString) throws JSONException, IOException {
 	// JSONArray plantillaString = utilidades.json(indexCodigo);
 
-	BusquedaCirculos bCirculos = new BusquedaCirculos();
+	// BusquedaCirculos bCirculos = new BusquedaCirculos();
 	// Map<Integer, String> examenAlumno = bCirculos.buscarRespuestas(imagePath);
+	System.out.println("leerNotas");
 	ArrayList<Integer> resultado = new ArrayList<>();
 
 	for (int i = 1; i <= 40; i++) {

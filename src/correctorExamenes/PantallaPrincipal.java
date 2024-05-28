@@ -28,6 +28,7 @@ public class PantallaPrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+    private JPanel panel;
     private static Utilidades utilidades = new Utilidades();
     private static JSONArray listaPlantillas;
     private static JLabel lblPlantillaCorrecion;
@@ -67,7 +68,7 @@ public class PantallaPrincipal extends JFrame {
 	setContentPane(contentPane);
 	contentPane.setLayout(null);
 
-	JPanel panel = new JPanel();
+	panel = new JPanel();
 	panel.setBounds(-14, -29, 1088, 568);
 	panel.setPreferredSize(new Dimension(450, 300));
 	panel.setBackground(new Color(9, 37, 72));
@@ -83,34 +84,7 @@ public class PantallaPrincipal extends JFrame {
 	btnExamen.addMouseListener(new MouseAdapter() {
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
-		try {
-		    System.out.println("abrir");
-		    try {
-			lblExamenCorrecion.setForeground(Color.YELLOW);
-			lblExamenCorrecion.setText("Cargando y corrigiendo examen");
-			DialogoFicheros dialogoFicheros = new DialogoFicheros();
-			String rutaExamen = dialogoFicheros.abrirExplorador();
-
-			BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
-			Map<Integer, String> examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
-
-			double notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
-			lblNotaCalculada.setText(String.valueOf(notaFinal));
-			if (notaFinal >= 5) {
-			    lblNotaCalculada.setForeground(Color.green);
-			}
-
-			lblExamenCorrecion.setForeground(Color.WHITE);
-			lblExamenCorrecion.setText(examenalumnoMap.toString());
-		    } catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		    }
-		} catch (Exception e1) {
-		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
-		}
-		frame.setVisible(false);
+		abrirExamen();
 	    }
 	});
 
@@ -268,5 +242,38 @@ public class PantallaPrincipal extends JFrame {
 	});
 	nuevaPlantillaButton.setBounds(125, 80, 80, 25);
 	panel.add(nuevaPlantillaButton);
+    }
+
+    public void abrirExamen() {
+	try {
+	    System.out.println("abrir");
+	    try {
+		lblExamenCorrecion.setForeground(Color.YELLOW);
+		lblExamenCorrecion.setText("Cargando y corrigiendo examen");
+		DialogoFicheros dialogoFicheros = new DialogoFicheros();
+		String rutaExamen = dialogoFicheros.abrirExplorador();
+
+		BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
+		Map<Integer, String> examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
+
+		double notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
+		lblNotaCalculada.setText(String.valueOf(notaFinal));
+		if (notaFinal >= 5) {
+		    lblNotaCalculada.setForeground(Color.green);
+		}
+
+		lblExamenCorrecion.setForeground(Color.WHITE);
+		lblExamenCorrecion.setText(examenalumnoMap.toString());
+	    } catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	    }
+	} catch (Exception e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	frame.setVisible(false);
+	panel.repaint();
+
     }
 }
