@@ -21,8 +21,8 @@ public class Busqueda {
 	    double stringY = fila.getNumeroY(); // y arriba a bajo
 
 	    // Primera Fila
-	    int intB = y + 182; // -- 235
-	    int intC = intB + 65; // -- 300
+	    int intB = y + 182; // -- 235 -182
+	    int intC = intB + 65; // -- 300 -65
 	    int intD = intC + 60; // --360
 
 	    int entreColumnas = 485; // entre columnas de a - a 485
@@ -30,8 +30,12 @@ public class Busqueda {
 	    String letra = "A";
 	    if (stringX < intB) {
 		int numeroPregunta = numeroPregunta(fila);
-		listaNumeros.put(numeroPregunta, "A");
-
+		if (listaNumeros.get(numeroPregunta).equals("Empty")) {
+		    listaNumeros.put(numeroPregunta, "A");
+		} else {
+		    listaNumeros.put(numeroPregunta, "Nula");
+		}
+		listaFinal.add(fila);
 	    } else if (stringX > intB && stringX < intC) {
 		int numeroPregunta = numeroPregunta(fila);
 		listaNumeros.put(numeroPregunta, "B");
@@ -58,17 +62,36 @@ public class Busqueda {
 
 	    } else if (stringX > (intB + entreColumnas) && stringX < (intC + entreColumnas)) {
 		int numeroPregunta = numeroPregunta(fila);
-		listaNumeros.put(numeroPregunta + 10, "B");
+		if (listaNumeros.get(numeroPregunta).equals("Empty")) {
+		    listaNumeros.put(numeroPregunta + 10, "B");
+		} else {
+		    listaNumeros.put(numeroPregunta + 10, "Nula");
+		}
+
 		listaFinal.add(fila);
 
 	    } else if (stringX > (intC + entreColumnas) && stringX < (intD + entreColumnas)) {
+
 		int numeroPregunta = numeroPregunta(fila);
-		listaNumeros.put(numeroPregunta + 10, "C");
+		if (listaNumeros.get(numeroPregunta).equals("Empty")) {
+		    listaNumeros.put(numeroPregunta + 10, "C");
+		} else {
+		    listaNumeros.put(numeroPregunta + 10, "Nula");
+		}
+
 		listaFinal.add(fila);
+
 	    } else if (stringX > (intD + entreColumnas) && stringX < 900) {
 		int numeroPregunta = numeroPregunta(fila);
-		listaNumeros.put(numeroPregunta + 10, "D");
+
+		if (listaNumeros.get(numeroPregunta).equals("Empty")) {
+		    listaNumeros.put(numeroPregunta + 10, "D");
+		} else {
+		    listaNumeros.put(numeroPregunta + 10, "Nula");
+		}
+
 		listaFinal.add(fila);
+
 	    }
 
 	    int terceraColumna = (entreColumnas * 2);
