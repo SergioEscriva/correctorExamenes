@@ -35,7 +35,7 @@ public class BusquedaCirculos {
     private static String imagePath;
     private static Map<Integer, String> examenAlumno;
 
-    public static Map<Integer, String> buscarCirculos(int y) throws JSONException, IOException {
+    public static Map<Integer, String> buscarCirculos(int y, int x) throws JSONException, IOException {
 	// Cargar la imagen
 	String imagePathInv = "./bnarchivo-negro.jpg";//
 	Mat src = Imgcodecs.imread(imagePathInv);
@@ -109,7 +109,8 @@ public class BusquedaCirculos {
 
 	    // Si la mayoría de los píxeles son blancos, añadimos el círculo a la lista de
 	    // círculos blancos
-	    if (whitePixels > (Math.PI * radius * radius * 0.6)) { // 70% de los píxeles son blancos
+	    if (whitePixels > (Math.PI * radius * radius * 0.8)) { // 70% de los píxeles son blancos Poner 0.6 para que
+								   // pille más
 		whiteCircles.add(center);
 		// Dibujar el círculo detectado en la imagen original
 		Imgproc.circle(src, center, radius, new Scalar(0, 255, 0), 3);
@@ -127,7 +128,7 @@ public class BusquedaCirculos {
 	}
 	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
-	examenAlumno = busqueda.busquedaLetras(lista, y);
+	examenAlumno = busqueda.busquedaLetras(lista, y, x);
 	return examenAlumno;
 
     }
@@ -232,7 +233,7 @@ public class BusquedaCirculos {
 	} else {
 	    System.out.println("final");
 	    invertirOscurecer(imagePath, y);
-	    examenAlumno = buscarCirculos(y);
+	    examenAlumno = buscarCirculos(y, x);
 
 	    return examenAlumno;
 	}
