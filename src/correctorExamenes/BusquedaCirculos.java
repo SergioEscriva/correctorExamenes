@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -174,6 +175,7 @@ public class BusquedaCirculos {
 	// examen que leerá
 
 	// Crear una instancia de Tesseract
+	Map<Integer, String> blancoMap = new HashMap<Integer, String>();
 	ITesseract tesseract = new Tesseract();
 
 	// Configurar la ruta del idioma (opcional)
@@ -226,12 +228,13 @@ public class BusquedaCirculos {
 	    PantallaPrincipal principal = new PantallaPrincipal();
 	    principal.abrirExamen();
 
+	} else {
+	    System.out.println("final");
+	    invertirOscurecer(imagePath, y);
+	    examenAlumno = buscarCirculos(y);
+	    return examenAlumno;
 	}
-	System.out.println("final");
-	invertirOscurecer(imagePath, y);
-	examenAlumno = buscarCirculos(y);
-	return examenAlumno;
-
+	return blancoMap;
     }
 
     public double calcularNota(JSONArray plantillaString) throws JSONException, IOException {
