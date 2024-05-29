@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Busqueda {
 
-    public Map<Integer, String> busquedaLetras(List<Par> coordenadas, int y, int x) {
+    public Map<Integer, String> busquedaLetras(List<Par> coordenadas, int x, int y) {
 	List<Par> listaFinal = new ArrayList<>();
 	Map<Integer, String> listaNumeros = new HashMap<>();
 	for (int i = 1; i <= 40; i++) {
@@ -20,37 +20,44 @@ public class Busqueda {
 	    double stringX = fila.getNumeroX(); // x izquierda a derecha
 	    // double stringY = fila.getNumeroY(); // y arriba a bajo
 
-	    // int alturaPrimeraFila = y + 182;
+	    /// La X tiene una media de 807
 	    // Primera Fila
-	    int intB = x - 680; // -- 235 -182
-	    int intC = intB + 65; // -- 300 -65
-	    int intD = intC + 60; // --360
+	    int intA = x - 750;
+	    int intB = 254; // intA + 68; // -- - 680
+	    int intC = 315; // intB + 62; // -- -65
+	    int intD = 375; // intC + 61; // -- 60
 
 	    int entreColumnas = 485; // entre columnas de a - a 485 ESTO es X
+	    System.out.println(intA + " < > " + intB + " < > " + intC + " < > " + intD + " < > ");
 
 	    String letra = "A";
 	    if (stringX < intB) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		if (listaNumeros.get(numeroPregunta).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta, "A");
+
 		} else {
 		    listaNumeros.put(numeroPregunta, "Nula");
 		}
+		System.out.println(fila + " A Primera " + numeroPregunta);
 		listaFinal.add(fila);
 	    } else if (stringX > intB && stringX < intC) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta, "B");
 		listaFinal.add(fila);
+		System.out.println(fila + " B Primera " + numeroPregunta);
 
 	    } else if (stringX > intC && stringX < intD) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta, "C");
 		listaFinal.add(fila);
+		System.out.println(fila + " C Primera " + numeroPregunta);
 
 	    } else if (stringX > intD && stringX < 400) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta, "D");
 		listaFinal.add(fila);
+		System.out.println(fila + " D Primera " + numeroPregunta);
 
 	    } // else {
 	      // System.out.println("Error de lectura " + fila);
@@ -60,6 +67,7 @@ public class Busqueda {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 10, "A");
 		listaFinal.add(fila);
+		System.out.println(fila + " A Segunda " + (numeroPregunta + 10));
 
 	    } else if (stringX > (intB + entreColumnas) && stringX < (intC + entreColumnas)) {
 		int numeroPregunta = numeroPregunta(fila, y);
@@ -70,6 +78,7 @@ public class Busqueda {
 		}
 
 		listaFinal.add(fila);
+		System.out.println(fila + " B Segunda " + (numeroPregunta + 10));
 
 	    } else if (stringX > (intC + entreColumnas) && stringX < (intD + entreColumnas)) {
 
@@ -81,6 +90,7 @@ public class Busqueda {
 		}
 
 		listaFinal.add(fila);
+		System.out.println(fila + " C Segunda " + (numeroPregunta + 10));
 
 	    } else if (stringX > (intD + entreColumnas) && stringX < 900) {
 		int numeroPregunta = numeroPregunta(fila, y);
@@ -92,19 +102,20 @@ public class Busqueda {
 		}
 
 		listaFinal.add(fila);
+		System.out.println(fila + " D Segunda " + (numeroPregunta + 10));
 
 	    }
 
-	    int terceraColumna = (entreColumnas * 2);
+	    int terceraColumna = (entreColumnas * 2); // 675
 
-	    if (stringX < (intB + terceraColumna) && stringX > 900) {
+	    if (stringX < (intB + terceraColumna) && stringX > 1000) {
+		System.out.println((intB + terceraColumna) + " < A Tercera > ");
 		int numeroPregunta = numeroPregunta(fila, y);
-		System.out.println(fila + " <A> " + listaNumeros.get(numeroPregunta + 20));
 		listaNumeros.put(numeroPregunta + 20, "A");
 		listaFinal.add(fila);
+		System.out.println(fila + " A Tercera " + (numeroPregunta + 20));
 	    } else if (stringX > (intB + terceraColumna) && stringX < (intC + terceraColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
-		System.out.println(fila + " <B> " + listaNumeros.get(numeroPregunta + 20));
 		if (listaNumeros.get(numeroPregunta + 20).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta + 20, "B");
 		} else {
@@ -112,10 +123,10 @@ public class Busqueda {
 		}
 
 		listaFinal.add(fila);
+		System.out.println(fila + " B Tercera " + (numeroPregunta + 20));
 	    } else if (stringX > (intC + terceraColumna) && stringX < (intD + terceraColumna)) {
-		int numeroPregunta = numeroPregunta(fila, y);
-		System.out.println(fila + " <C> " + listaNumeros.get(numeroPregunta + 20));
 
+		int numeroPregunta = numeroPregunta(fila, y);
 		if (listaNumeros.get(numeroPregunta + 20).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta + 20, "C");
 		} else {
@@ -123,9 +134,10 @@ public class Busqueda {
 		}
 
 		listaFinal.add(fila);
+		System.out.println(fila + " C Tercera " + (numeroPregunta + 20) + " <> menor " + (intC + terceraColumna)
+			+ " mayor " + (intD + terceraColumna));
 	    } else if (stringX > (intD + terceraColumna) && stringX < 1385) {
 		int numeroPregunta = numeroPregunta(fila, y);
-		System.out.println(listaNumeros.get(numeroPregunta + 20) + " segundaD");
 		if (listaNumeros.get(numeroPregunta + 20).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta + 20, "D");
 		} else {
@@ -133,25 +145,29 @@ public class Busqueda {
 		}
 
 		listaFinal.add(fila);
+		System.out.println(fila + " D Tercera " + (numeroPregunta + 20) + " <> mayor " + ("1385"));
 	    }
 
-	    int cuartaColumna = (entreColumnas * 3);
+	    int cuartaColumna = (entreColumnas * 3); // +800
 
-	    if (stringX < (intB + cuartaColumna) && stringX > 1395) {
+	    if (stringX < (intB + cuartaColumna) && stringX > 1400) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "A");
-		letra = "A";
+		System.out.println(fila + " A Cuarta " + (numeroPregunta + 30) + " <> mayor " + (intB + cuartaColumna));
 	    } else if (stringX > (intB + cuartaColumna) && stringX < (intC + cuartaColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "B");
-		letra = "B";
+		System.out.println(fila + " B Cuarta " + (numeroPregunta + 30) + " <> mayor" + (intB + cuartaColumna)
+			+ " menor " + (intC + cuartaColumna));
 	    } else if (stringX > (intC + cuartaColumna) && stringX < (intD + cuartaColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "C");
-		letra = "C";
+		System.out.println(fila + " C Cuarta " + (numeroPregunta + 30) + " <> mayor" + (intC + cuartaColumna)
+			+ "menor" + (intD + cuartaColumna));
 	    } else if (stringX > (intD + cuartaColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "D");
+		System.out.println(fila + " D Cuarta " + (numeroPregunta + 30) + " <> mayor" + (intD + cuartaColumna));
 	    }
 
 	}
@@ -161,9 +177,9 @@ public class Busqueda {
     }
 
     public Integer numeroPregunta(Par fila, int y) {
-	System.out.println(" Y " + y);
-	int horquillaInicial = 250;// y + 175;
-	int horquillaSize = 90;
+	// en y viene normalmente 21
+	int horquillaInicial = (208); // Altura de "A" del borde a 162 normalmente y+55
+	int horquillaSize = 95; // es la media de separación entre filas
 
 	double numero = fila.getNumeroY();
 	int horquilla = (int) Math.ceil((numero - horquillaInicial) / horquillaSize) + 1;

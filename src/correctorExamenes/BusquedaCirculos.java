@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,6 +119,20 @@ public class BusquedaCirculos {
 	    }
 	}
 
+	// Ordenar los círculos detectados de izquierda a derecha y de arriba a abajo
+	Collections.sort(whiteCircles, new Comparator<Point>() {
+	    @Override
+	    public int compare(Point p1, Point p2) {
+		if (p1.y < p2.y) {
+		    return -1;
+		} else if (p1.y > p2.y) {
+		    return 1;
+		} else {
+		    return Double.compare(p1.x, p2.x);
+		}
+	    }
+	});
+
 	// Guardar la imagen resultante con los círculos detectados
 	Imgcodecs.imwrite("./blancos.jpg", src);
 	List<Par> lista = new ArrayList<>();
@@ -125,10 +141,11 @@ public class BusquedaCirculos {
 	for (Point p : whiteCircles) {
 	    Par pares = new Par(p.x, p.y);
 	    lista.add(pares);
+	    System.out.println(lista);
 	}
 	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
-	examenAlumno = busqueda.busquedaLetras(lista, y, x);
+	examenAlumno = busqueda.busquedaLetras(lista, x, y);
 	return examenAlumno;
 
     }
@@ -220,9 +237,6 @@ public class BusquedaCirculos {
 	int referenciaRespuesta = tamanoImagen - 234;
 	int tamanoReferenciaDerecha = referenciaRespuesta - x;
 	int comparacion = tamanoReferenciaDerecha - x;
-
-	System.out.println(
-		tamanoImagen + " <> " + referenciaRespuesta + " <> " + tamanoReferenciaDerecha + " <> " + comparacion);
 	if (comparacion >= 60 || comparacion <= -60) {
 //			JOptionPane.showMessageDialog(null,
 //					"Error en la resolución de la imagen, intenta escanearla lo más centrada posible, gracias.",
@@ -256,7 +270,6 @@ public class BusquedaCirculos {
 	for (int i = 1; i <= 40; i++) {
 	    String preguntaPlantilla = plantillaString.getString(i - 1).toUpperCase();
 	    String preguntaExamen = examenAlumno.get(i);
-	    System.out.println("preguna " + preguntaExamen);
 	    if (preguntaPlantilla.equals(preguntaExamen)) {
 		resultado.add(1);
 		aciertos += 1;
@@ -276,7 +289,7 @@ public class BusquedaCirculos {
 	double notaReal = notaFinal / 4;
 
 	System.out.print(notaFinal / 4);
-	System.out.println(resultado);
+
 	notas.put("notaFinal", String.valueOf(notaReal));
 	notas.put("aciertos", String.valueOf(aciertos));
 	notas.put("fallos", String.valueOf(falladas));

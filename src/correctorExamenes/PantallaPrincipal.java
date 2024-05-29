@@ -107,7 +107,7 @@ public class PantallaPrincipal extends JFrame {
 	    public void mouseClicked(MouseEvent e) {
 
 		try {
-		    System.out.println("abrir");
+
 		    try {
 			listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
 			lblPlantillaCorrecion.setText(listaPlantillas.toString());
@@ -234,7 +234,7 @@ public class PantallaPrincipal extends JFrame {
 
     public void abrirExamen() {
 	try {
-	    System.out.println("abrir");
+
 	    try {
 		// poner todo a cero
 		lblNotaCalculada.setText(String.valueOf("Sin Calificación"));
