@@ -29,7 +29,7 @@ import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Word;
 import utilidades.Utilidades;
 
-public class BusquedaCirculos {
+public class BuscarCirculos {
     static {
 	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
@@ -50,12 +50,14 @@ public class BusquedaCirculos {
 
 	List<Par> allCircles = rebuscarCirculos(srcBlack, "all");
 	List<Par> white1Circles = rebuscarCirculos(srcWhite, "white");
-
-//	// Convertir la imagen a escala de grises necesario para que se vea mejor
+	// Convertir la imagen a escala de grises necesario para que se vea mejor
 
 	// pasa a la clase que buscará las letras de los circulos
-	Busqueda busqueda = new Busqueda();
+	NumerarCirculos numerarCirculos = new NumerarCirculos();
+	numerarCirculos.busquedaLetras(allCircles, allCircles, x, y);
+	CirculosMarcados busqueda = new CirculosMarcados();
 	examenAlumno = busqueda.busquedaLetras(allCircles, white1Circles, x, y);
+
 	return examenAlumno;
 
     }
@@ -279,7 +281,7 @@ public class BusquedaCirculos {
 		    } else if (p1.x < p2.x) {
 			return 1;
 		    } else {
-			return Double.compare(p1.y, p2.y);
+			return Double.compare(p1.y, p2.x);
 		    }
 		}
 	    });
