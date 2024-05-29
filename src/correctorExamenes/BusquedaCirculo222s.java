@@ -40,22 +40,112 @@ public class BusquedaCirculos {
     public static Map<Integer, String> buscarCirculos(int y, int x) throws JSONException, IOException {
 	// Cargar la imagen
 	String imagePathInv = "./bnarchivo-negro.jpg";//
-	Mat srcBlack = Imgcodecs.imread(imagePathInv);
-	Mat srcWhite = Imgcodecs.imread(imagePathInv);
+	Mat src = Imgcodecs.imread(imagePathInv);
 
-	if (srcBlack.empty()) {
+	if (src.empty()) {
 	    System.out.println("No se pudo cargar la imagen");
 	    return null;
 	}
 
-	List<Par> allCircles = rebuscarCirculos(srcBlack, "all");
-	List<Par> white1Circles = rebuscarCirculos(srcWhite, "white");
-
 //	// Convertir la imagen a escala de grises necesario para que se vea mejor
+	Mat gray = new Mat();
+	Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+//
+//	// Contar la cantidad de píxeles blancos para saber si está mal escaneada
+//	int whitePixelsTotal = Core.countNonZero(gray);
+//
+//	// Calcular el porcentaje de píxeles negros porque la imagen está en negativo
+//	double totalPixelsTotal = gray.rows() * gray.cols();
+//	double whitePercentage = (whitePixelsTotal / totalPixelsTotal) * 100;
+//
+//	System.out.println("Cantidad de píxeles blancos: " + whitePixelsTotal);
+//	System.out.println("Porcentaje de píxeles blancos: " + whitePercentage + "%");
+//
+//	if (whitePercentage < 24.76) { // 24.76
+//	    JOptionPane.showMessageDialog(null,
+//		    "Error en la resolución de la imagen, intenta escanearla lo más centrada posible, gracias.",
+//		    "Resolución Erronea", JOptionPane.INFORMATION_MESSAGE);
+//	    PantallaPrincipal principal = new PantallaPrincipal();
+//	    return null;
+//	}
 
+	// Aplicar desenfoque para reducir el ruido
+	Imgproc.GaussianBlur(gray, gray, new Size(9, 9), 2, 2);
+
+	// Detectar círculos utilizando la transformada de Hough
+	Mat circles = new Mat();
+	Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 25, 100, 25, 15, 50); // números
+	// que hay
+	// que jugar
+	// para que
+	// localize
+	// los
+	// circulos
+
+	// Crear una lista para almacenar los círculos blancos detectados
+	List<Point> whiteCircles = new ArrayList<>();
+
+	// Verificar cada círculo detectado
+	for (int i = 0; i < circles.cols(); i++) {
+	    double[] circle = circles.get(0, i);
+	    if (circle == null)
+		continue;
+	    Point center = new Point(Math.round(circle[0]), Math.round(circle[1]));
+	    int radius = (int) Math.round(circle[2]);
+
+	    // Crear una máscara para el círculo
+	    Mat mask = Mat.zeros(gray.size(), CvType.CV_8UC1);
+	    Imgproc.circle(mask, center, radius, new Scalar(255, 255, 255), -1);
+
+	    // Extraer la región del círculo de la imagen original
+	    Mat circleROI = new Mat();
+	    src.copyTo(circleROI, mask);
+
+	    // Convertir la región del círculo a escala de grises y umbralizar
+	    Mat circleGray = new Mat();
+	    Imgproc.cvtColor(circleROI, circleGray, Imgproc.COLOR_BGR2GRAY);
+	    Imgproc.threshold(circleGray, circleGray, 200, 255, Imgproc.THRESH_BINARY);
+
+	    // Calcular la cantidad de píxeles blancos en el círculo
+	    int whitePixels = Core.countNonZero(circleGray);
+
+	    // Si la mayoría de los píxeles son blancos, añadimos el círculo a la lista de
+	    // círculos blancos
+	    if (whitePixels > (Math.PI * radius * radius * 0.0)) { // 70% de los píxeles son blancos Poner 0.6 para que
+								   // pille más
+		whiteCircles.add(center);
+		// Dibujar el círculo detectado en la imagen original
+		Imgproc.circle(src, center, radius, new Scalar(0, 255, 0), 3);
+	    }
+	}
+
+	// Ordenar los círculos detectados de izquierda a derecha y de arriba a abajo
+	Collections.sort(whiteCircles, new Comparator<Point>() {
+	    @Override
+	    public int compare(Point p1, Point p2) {
+		if (p1.y < p2.y) {
+		    return -1;
+		} else if (p1.y > p2.y) {
+		    return 1;
+		} else {
+		    return Double.compare(p1.x, p2.x);
+		}
+	    }
+	});
+
+	// Guardar la imagen resultante con los círculos detectados
+	Imgcodecs.imwrite("./blancos.jpg", src);
+	List<Par> lista = new ArrayList<>();
+
+	// Mostrar resultados
+	for (Point p : whiteCircles) {
+	    Par pares = new Par(p.x, p.y);
+	    lista.add(pares);
+	    System.out.println(lista);
+	}
 	// pasa a la clase que buscará las letras de los circulos
 	Busqueda busqueda = new Busqueda();
-	examenAlumno = busqueda.busquedaLetras(allCircles, white1Circles, x, y);
+	examenAlumno = busqueda.busquedaLetras(lista, x, y);
 	return examenAlumno;
 
     }
@@ -147,21 +237,21 @@ public class BusquedaCirculos {
 	int referenciaRespuesta = tamanoImagen - 234;
 	int tamanoReferenciaDerecha = referenciaRespuesta - x;
 	int comparacion = tamanoReferenciaDerecha - x;
-	if (comparacion >= 60 || comparacion <= -60) {
+	// if (comparacion >= 60 || comparacion <= -60) {
 //			JOptionPane.showMessageDialog(null,
 //					"Error en la resolución de la imagen, intenta escanearla lo más centrada posible, gracias.",
 //					"Resolución Erronea", JOptionPane.INFORMATION_MESSAGE);
 //			PantallaPrincipal principal = new PantallaPrincipal();
 //			principal.abrirExamen();
 
-	} else {
-	    System.out.println("final");
-	    invertirOscurecer(imagePath, y);
-	    examenAlumno = buscarCirculos(y, x);
+	// } else {
+	System.out.println("final");
+	invertirOscurecer(imagePath, y);
+	examenAlumno = buscarCirculos(y, x);
 
-	    return examenAlumno;
-	}
-	return blancoMap;
+	return examenAlumno;
+	// }
+	// return blancoMap;
     }
 
     public Map<String, String> calcularNota(JSONArray plantillaString) throws JSONException, IOException {
@@ -206,95 +296,5 @@ public class BusquedaCirculos {
 	notas.put("blanco", String.valueOf(blanco));
 	notas.put("nulas", String.valueOf(nulas));
 	return notas;
-    }
-
-    public static List<Par> rebuscarCirculos(Mat src, String circulos) {
-
-	double radio = 0.0;
-	String rutaCirculos = "./blancos.jpg";
-	radio = 0.8;
-	List<Par> lista = new ArrayList<>();
-	if (circulos.equals("all")) {
-	    radio = 0.0;
-	    rutaCirculos = "./todos.jpg";
-	}
-	Mat gray = new Mat();
-	Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
-	// Aplicar desenfoque para reducir el ruido
-	Imgproc.GaussianBlur(gray, gray, new Size(9, 9), 2, 2);
-
-	// Detectar círculos utilizando la transformada de Hough
-	Mat circles = new Mat();
-	Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1, gray.rows() / 25, 100, 25, 15, 50); // números
-	// que hay
-	// que jugar
-	// para que
-	// localize
-	// los
-	// circulos
-
-	// Crear una lista para almacenar los círculos blancos detectados
-	List<Point> whiteCircles = new ArrayList<>();
-
-	// Verificar cada círculo detectado
-	for (int i = 0; i < circles.cols(); i++) {
-	    double[] circle = circles.get(0, i);
-	    if (circle == null)
-		continue;
-	    Point center = new Point(Math.round(circle[0]), Math.round(circle[1]));
-	    int radius = (int) Math.round(circle[2]);
-
-	    // Crear una máscara para el círculo
-	    Mat mask = Mat.zeros(gray.size(), CvType.CV_8UC1);
-	    Imgproc.circle(mask, center, radius, new Scalar(255, 255, 255), -1);
-
-	    // Extraer la región del círculo de la imagen original
-	    Mat circleROI = new Mat();
-	    src.copyTo(circleROI, mask);
-
-	    // Convertir la región del círculo a escala de grises y umbralizar
-	    Mat circleGray = new Mat();
-	    Imgproc.cvtColor(circleROI, circleGray, Imgproc.COLOR_BGR2GRAY);
-	    Imgproc.threshold(circleGray, circleGray, 200, 255, Imgproc.THRESH_BINARY);
-
-	    // Calcular la cantidad de píxeles blancos en el círculo
-	    int whitePixels = Core.countNonZero(circleGray);
-
-	    // Si la mayoría de los píxeles son blancos, añadimos el círculo a la lista de
-	    // círculos blancos
-	    if (whitePixels > (Math.PI * radius * radius * radio)) { // 70% de los píxeles son blancos Poner 0.6 para
-								     // que 0.8
-								     // pille más
-		whiteCircles.add(center);
-		// Dibujar el círculo detectado en la imagen original
-		Imgproc.circle(src, center, radius, new Scalar(0, 255, 0), 3);
-	    }
-	}
-	// Ordenar los círculos detectados de izquierda a derecha y de arriba a abajo
-	Collections.sort(whiteCircles, new Comparator<Point>() {
-	    @Override
-	    public int compare(Point p1, Point p2) {
-		if (p1.y < p2.y) {
-		    return -1;
-		} else if (p1.y > p2.y) {
-		    return 1;
-		} else {
-		    return Double.compare(p1.x, p2.x);
-		}
-	    }
-	});
-
-	// Guardar la imagen resultante con los círculos detectados
-	Imgcodecs.imwrite(rutaCirculos, src);
-
-	// Mostrar resultados
-	for (Point p : whiteCircles) {
-	    Par pares = new Par(p.x, p.y);
-	    lista.add(pares);
-	}
-	System.out.println("Lista maldita " + lista);
-
-	return lista;
-
     }
 }
