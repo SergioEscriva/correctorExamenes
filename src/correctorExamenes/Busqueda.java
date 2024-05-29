@@ -7,15 +7,27 @@ import java.util.Map;
 
 public class Busqueda {
 
-    public Map<Integer, String> busquedaLetras(List<Par> coordenadas, int x, int y) {
+    public Map<Integer, String> busquedaLetras(List<Par> allCircles, List<Par> whiteCircles, int x, int y) {
 	List<Par> listaFinal = new ArrayList<>();
+
+	for (Par circuloReal : allCircles) {
+	    System.out.println("CirculoReal " + circuloReal);
+	    for (Par circuloMarcado : whiteCircles) {
+		// System.out.println("CirculoMarcado " + circuloMarcado);
+		if (circuloReal == circuloMarcado) {
+
+		    // System.out.println("CirculoMarcado " + circuloMarcado);
+		}
+	    }
+	}
+
 	Map<Integer, String> listaNumeros = new HashMap<>();
 	for (int i = 1; i <= 40; i++) {
 	    listaNumeros.put(i, "Empty");
 	}
 
 	// Extrae las filas y le pone la letra según la distacia en x
-	for (Par fila : coordenadas) {
+	for (Par fila : whiteCircles) {
 	    String filaString = fila.toString();
 	    double stringX = fila.getNumeroX(); // x izquierda a derecha
 	    // double stringY = fila.getNumeroY(); // y arriba a bajo
@@ -27,7 +39,7 @@ public class Busqueda {
 	    int intC = intB + 61; // intB + 62; // -- -65
 	    int intD = intC + 60; // intC + 61; // -- 60
 
-	    int entreColumnas = 485; // entre columnas de a - a 485 ESTO es X
+	    int entreColumnas = 470; // entre columnas de a - a 485 ESTO es X
 	    System.out.println(intA + " < > " + intB + " < > " + intC + " < > " + intD + " < > ");
 
 	    String letra = "A";
