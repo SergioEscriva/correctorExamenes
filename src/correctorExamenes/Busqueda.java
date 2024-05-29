@@ -11,14 +11,9 @@ public class Busqueda {
 	List<Par> listaFinal = new ArrayList<>();
 
 	for (Par circuloReal : allCircles) {
-	    System.out.println("CirculoReal " + circuloReal);
-	    for (Par circuloMarcado : whiteCircles) {
-		// System.out.println("CirculoMarcado " + circuloMarcado);
-		if (circuloReal == circuloMarcado) {
 
-		    // System.out.println("CirculoMarcado " + circuloMarcado);
-		}
-	    }
+	    System.out.println(numeroPregunta(circuloReal, y) + " <> " + circuloReal);
+
 	}
 
 	Map<Integer, String> listaNumeros = new HashMap<>();

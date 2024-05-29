@@ -269,20 +269,43 @@ public class BusquedaCirculos {
 		// Dibujar el círculo detectado en la imagen original
 		Imgproc.circle(src, center, radius, new Scalar(0, 255, 0), 3);
 	    }
-	}
-	// Ordenar los círculos detectados de izquierda a derecha y de arriba a abajo
-	Collections.sort(whiteCircles, new Comparator<Point>() {
-	    @Override
-	    public int compare(Point p1, Point p2) {
-		if (p1.y < p2.y) {
-		    return -1;
-		} else if (p1.y > p2.y) {
-		    return 1;
-		} else {
-		    return Double.compare(p1.x, p2.x);
+
+	    // Ordenar los círculos detectados de izquierda a derecha y de arriba a abajo
+	    Collections.sort(whiteCircles, new Comparator<Point>() {
+		@Override
+		public int compare(Point p1, Point p2) {
+		    if (p1.x > p2.x) {
+			return -1;
+		    } else if (p1.x < p2.x) {
+			return 1;
+		    } else {
+			return Double.compare(p1.y, p2.y);
+		    }
 		}
-	    }
-	});
+	    });
+	}
+//	    // Mostrar resultados con numeración
+//	    for (int ii = 0; ii < whiteCircles.size(); ii++) {
+//		Point p = whiteCircles.get(ii);
+//		Par pares = new Par(p.x, p.y);
+//		lista.add(pares);
+//		// Dibujar el número en el centro del círculo
+//		Imgproc.putText(src, String.valueOf(ii + 1), new Point(p.x - radius / 2, p.y + radius / 2),
+//			Imgproc.FONT_HERSHEY_PLAIN, 1, new Scalar(255, 0, 0), 2);
+//	    }
+//
+//	}
+
+//	Collections.sort(whiteCircles, new Comparator<Point>() {
+//	    @Override
+//	    public int compare(Point p1, Point p2) {
+//		if (p1.y != p2.y) {
+//		    return Double.compare(p1.y, p2.y);
+//		} else {
+//		    return Double.compare(p1.x, p2.x);
+//		}
+//	    }
+//	});
 
 	// Guardar la imagen resultante con los círculos detectados
 	Imgcodecs.imwrite(rutaCirculos, src);
