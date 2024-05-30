@@ -294,6 +294,7 @@ public class PantallaPrincipal extends JFrame {
 		    }
 
 		    lblExamenCorrecion.setForeground(Color.WHITE);
+
 		    lblExamenCorrecion.setText(examenalumnoMap.toString());
 		} else {
 		    lblNotaCalculada.setText("Nota de Examen");

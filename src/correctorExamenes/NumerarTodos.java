@@ -56,6 +56,7 @@ public class NumerarTodos {
     public Map<String, Par> numeroRespuesta(List<Par> circulosList, int y) {
 //	System.out.println("puntos1" + circulosList.size());
 	Map<String, Par> listaNumerosLetras = new HashMap<>();
+
 	int a1 = 0;
 	int a2 = 0;
 
@@ -112,7 +113,7 @@ public class NumerarTodos {
 
 	    }
 	}
-
+	System.out.println("Final" + listaNumerosLetras);
 	return listaNumerosLetras;
 
     }

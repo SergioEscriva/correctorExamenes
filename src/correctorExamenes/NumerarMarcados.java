@@ -5,34 +5,49 @@ import java.util.List;
 import java.util.Map;
 
 public class NumerarMarcados {
-    public <K> Map<String, Par> busquedaLetras(List<Par> allCircles, List<Par> whiteCircles, int x, int y) {
+    public Map<Integer, String> busquedaLetras(List<Par> allCircles, List<Par> whiteCircles, int x, int y) {
 	NumerarTodos numerarTodos = new NumerarTodos();
 	NumerarMarcados numerarMarcados = new NumerarMarcados();
 
-	Map<String, Par> circulosNumeradosMap = numerarTodos.busquedaLetras(allCircles, y);
-	Map<String, Par> circulosCorrectosMap = new HashMap<>();
+	Map<String, Par> todosNumeradosMap = numerarTodos.busquedaLetras(allCircles, y); // Todos los circulos
 
-	Map<String, Par> circulosMarcadosMap = numerarMarcados.busquedaLetras(allCircles, whiteCircles, x, y);
+	// Map<Integer, String> circulosMarcados = new HashMap<>();
+	int u = 0;
+	Map<Integer, String> circulosMarcados = new HashMap<>();
+	for (int i = 1; i <= 40; i++) {
+	    circulosMarcados.put(i, "Empty");
+	    u = i;
+	}
 
-//	for (Map.Entry<String, Par> entry : circulosNumeradosMap.entrySet()) {
-//	    String llave = entry.getKey();
-//	    for (Par respuestas : whiteCircles) {
-//		// System.out.println("entry " + entry.getValue() + " respuestas " +
-//		// respuestas);
-//		if (respuestas.toString().contains(entry.getValue().toString())) {
-////					System.out.println("Entrooo");
-//		    circulosCorrectosMap.put(llave, respuestas);
-//		}
-//
-//	    }
-//
-//	}
+	for (Map.Entry<String, Par> entry : todosNumeradosMap.entrySet()) {
+	    String llave = entry.getKey();
+	    // String str = "removea";
+	    String llaveNumero = llave.replaceFirst(".$", "");
+	    String llaveLetra = "";
+	    if (Integer.valueOf(llaveNumero) < 10) {
+		llaveLetra = String.valueOf(llave.charAt(1));
+	    } else {
+		llaveLetra = String.valueOf(llave.charAt(2));
+	    }
 
-//		System.out.println(" allCircles " + circulosNumeradosMap);
-//		System.out.println(" whiteCircles " + whiteCircles.size());
-	System.out.println("CirculosCorrectos " + circulosCorrectosMap.size());
-	System.out.println("CirculosCorrectos " + circulosCorrectosMap);
-	return circulosNumeradosMap;
+	    Par value = entry.getValue();
+	    for (Par respuestas : whiteCircles) {
+		if (respuestas.toString().contains(value.toString())) {
+		    System.out.println("EEEEEntroooooo");
+		    circulosMarcados.put(Integer.valueOf(llaveNumero), llaveLetra);
+		}
+
+	    }
+
+	}
+
+	// Map<Integer, String> examenAlumno;
+
+	System.out.println(" allCircles " + allCircles);
+	System.out.println(" whiteCircles " + whiteCircles);
+	System.out.println("CirculosCorrectos " + todosNumeradosMap.size());
+	System.out.println("CirculosCorrectos " + circulosMarcados);
+	return circulosMarcados;
 
     }
 }

@@ -142,18 +142,18 @@ public class BuscarCirculos {
 	}
 
 	// Comprueba que la imagen esté centrada según la palabra Respuestas.
-	int referenciaRespuesta = tamanoImagen - 234;
-	int tamanoReferenciaDerecha = referenciaRespuesta - x;
-	int comparacion = tamanoReferenciaDerecha - x;
-	if (comparacion >= 60 || comparacion <= -60) {
+//	int referenciaRespuesta = tamanoImagen - 234;
+//	int tamanoReferenciaDerecha = referenciaRespuesta - x;
+//	int comparacion = tamanoReferenciaDerecha - x;
+//	if (comparacion >= 60 || comparacion <= -60) {
+//
+//	} else {
+	invertirOscurecer(imagePath, y);
+	examenAlumno = buscarCirculos(y, x);
 
-	} else {
-	    invertirOscurecer(imagePath, y);
-	    examenAlumno = buscarCirculos(y, x);
-
-	    return examenAlumno;
-	}
-	return blancoMap;
+	return examenAlumno;
+//	}
+	// return blancoMap;
     }
 
     public Map<String, String> calcularNota(JSONArray plantillaString) throws JSONException, IOException {
