@@ -20,7 +20,6 @@ public class CirculosMarcados {
 	for (Par fila : whiteCircles) {
 	    String filaString = fila.toString();
 	    double stringX = fila.getNumeroX(); // x izquierda a derecha
-	    // double stringY = fila.getNumeroY(); // y arriba a bajo
 
 	    /// La X tiene una media de 807
 	    // Primera Fila
@@ -30,8 +29,6 @@ public class CirculosMarcados {
 	    int intD = intC + 60; // intC + 61; // -- 60
 
 	    int entreColumnas = 470; // entre columnas de a - a 485 ESTO es X
-	    // System.out.println(intA + " < > " + intB + " < > " + intC + " < > " + intD +
-	    // " < > ");
 
 	    String letra = "A";
 	    if (stringX < intB) {
@@ -58,75 +55,60 @@ public class CirculosMarcados {
 		listaNumeros.put(numeroPregunta, "D");
 		listaFinal.add(fila);
 
-	    } // else {
-	      // System.out.println("Error de lectura " + fila);
-	      // }
+	    }
 
 	    if (stringX < (intB + entreColumnas) && stringX > 400) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		if (listaNumeros.get(numeroPregunta + 10).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta + 10, "A");
-		    // System.out.println(fila + " A Segunda empty " + (numeroPregunta + 10));
 		} else {
 		    listaNumeros.put(numeroPregunta + 10, "Nula");
-		    // System.out.println(fila + " A Segunda Nula " + (numeroPregunta + 10));
 		}
 
 		listaFinal.add(fila);
-		// System.out.println(fila + " A Segunda " + (numeroPregunta + 10));
 
 	    } else if (stringX > (intB + entreColumnas) && stringX < (intC + entreColumnas)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		if (listaNumeros.get(numeroPregunta + 10).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta + 10, "B");
-		    // System.out.println(fila + " B Segunda empty " + (numeroPregunta + 10));
 		} else {
 		    listaNumeros.put(numeroPregunta + 10, "Nula");
-		    // System.out.println(fila + " B Segunda Nula " + (numeroPregunta + 10));
+
 		}
 
 		listaFinal.add(fila);
-		// System.out.println(fila + " B Segunda " + (numeroPregunta + 10));
 
 	    } else if (stringX > (intC + entreColumnas) && stringX < (intD + entreColumnas)) {
 
 		int numeroPregunta = numeroPregunta(fila, y);
 		if (listaNumeros.get(numeroPregunta + 10).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta + 10, "C");
-		    // System.out.println(fila + " C Segunda empty " + (numeroPregunta + 10));
 		} else {
 		    listaNumeros.put(numeroPregunta + 10, "Nula");
-		    // System.out.println(fila + " C Segunda Nula " + (numeroPregunta + 10));
 		}
 
 		listaFinal.add(fila);
-		// System.out.println(fila + " C Segunda " + (numeroPregunta + 10));
 
 	    } else if (stringX > (intD + entreColumnas) && stringX < 900) {
 		int numeroPregunta = numeroPregunta(fila, y);
 
 		if (listaNumeros.get(numeroPregunta + 10).equals("Empty")) {
 		    listaNumeros.put(numeroPregunta + 10, "D");
-		    // System.out.println(fila + "D Segunda empty " + (numeroPregunta + 10));
 		} else {
 		    listaNumeros.put(numeroPregunta + 10, "Nula");
-		    // System.out.println(fila + " D Segunda Nula " + (numeroPregunta + 10));
 
 		}
 
 		listaFinal.add(fila);
-		// System.out.println(fila + " D Segunda " + (numeroPregunta + 10));
 
 	    }
 
 	    int terceraColumna = (entreColumnas * 2); // 675
 
 	    if (stringX < (intB + terceraColumna) && stringX > 1000) {
-		// System.out.println((intB + terceraColumna) + " < A Tercera > ");
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 20, "A");
 		listaFinal.add(fila);
-		// System.out.println(fila + " A Tercera " + (numeroPregunta + 20));
 	    } else if (stringX > (intB + terceraColumna) && stringX < (intC + terceraColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		if (listaNumeros.get(numeroPregunta + 20).equals("Empty")) {
@@ -136,7 +118,6 @@ public class CirculosMarcados {
 		}
 
 		listaFinal.add(fila);
-		// System.out.println(fila + " B Tercera " + (numeroPregunta + 20));
 	    } else if (stringX > (intC + terceraColumna) && stringX < (intD + terceraColumna)) {
 
 		int numeroPregunta = numeroPregunta(fila, y);
@@ -147,9 +128,7 @@ public class CirculosMarcados {
 		}
 
 		listaFinal.add(fila);
-		// System.out.println(fila + " C Tercera " + (numeroPregunta + 20) + " <> menor
-		// " + (intC + terceraColumna)
-		// + " mayor " + (intD + terceraColumna));
+
 	    } else if (stringX > (intD + terceraColumna) && stringX < 1385) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		if (listaNumeros.get(numeroPregunta + 20).equals("Empty")) {
@@ -159,8 +138,7 @@ public class CirculosMarcados {
 		}
 
 		listaFinal.add(fila);
-		// System.out.println(fila + " D Tercera " + (numeroPregunta + 20) + " <> mayor
-		// " + ("1385"));
+
 	    }
 
 	    int cuartaColumna = (entreColumnas * 3); // +800
@@ -168,25 +146,19 @@ public class CirculosMarcados {
 	    if (stringX < (intB + cuartaColumna) && stringX > 1400) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "A");
-		// System.out.println(fila + " A Cuarta " + (numeroPregunta + 30) + " <> mayor "
-		// + (intB + cuartaColumna));
+
 	    } else if (stringX > (intB + cuartaColumna) && stringX < (intC + cuartaColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "B");
-		// System.out.println(fila + " B Cuarta " + (numeroPregunta + 30) + " <> mayor"
-		// + (intB + cuartaColumna)
-		// + " menor " + (intC + cuartaColumna));
+
 	    } else if (stringX > (intC + cuartaColumna) && stringX < (intD + cuartaColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "C");
-		// System.out.println(fila + " C Cuarta " + (numeroPregunta + 30) + " <> mayor"
-		// + (intC + cuartaColumna)
-		// + "menor" + (intD + cuartaColumna));
+
 	    } else if (stringX > (intD + cuartaColumna)) {
 		int numeroPregunta = numeroPregunta(fila, y);
 		listaNumeros.put(numeroPregunta + 30, "D");
-		// System.out.println(fila + " D Cuarta " + (numeroPregunta + 30) + " <> mayor"
-		// + (intD + cuartaColumna));
+
 	    }
 
 	}
@@ -205,11 +177,6 @@ public class CirculosMarcados {
 
 	double numero = fila.getNumeroY();
 	int horquilla = (int) Math.ceil((numero - horquillaInicial) / horquillaSize) + 1;
-	// if (horquilla == 10) {
-	// numero1 = numero1 + 10;
-
-	// }
-	// horquilla = horquilla + (numero1);
 
 	return horquilla;
     }

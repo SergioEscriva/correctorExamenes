@@ -52,17 +52,12 @@ public class BuscarCirculos {
 	allCircles = rebuscarCirculos(srcBlack, "all");
 
 	List<Par> white1Circles = rebuscarCirculos(srcWhite, "white");
-	// Convertir la imagen a escala de grises necesario para que se vea mejor
 
-	// pasa a la clase que buscará las letras de los circulos
-	NumerarCirculos numerarCirculos = new NumerarCirculos();
-	numerarCirculos.busquedaLetras(allCircles, white1Circles, x, y);
 	CirculosMarcados busqueda = new CirculosMarcados();
 	examenAlumno = busqueda.busquedaLetras(allCircles, white1Circles, x, y);
-	CompararCirculos compararCirculos = new CompararCirculos();
-	compararCirculos.busquedaLetras(allCircles, white1Circles, x, y);
-	// NumerarPuntos numberPoints = new NumerarPuntos();
-	// numberPoints.busquedaLetras(white1Circles, white1Circles);
+
+	NumerarMarcados numerarMarcados = new NumerarMarcados();
+	numerarMarcados.busquedaLetras(allCircles, white1Circles, x, y);
 
 	return examenAlumno;
 
@@ -140,11 +135,6 @@ public class BuscarCirculos {
 		    y = word.getBoundingBox().y;
 		    int width = word.getBoundingBox().width;
 		    int height = word.getBoundingBox().height;
-
-//		    System.out.println("Palabra: " + text);
-//		    System.out.println("Coordenadas: (" + x + ", " + y + ")");
-//		    System.out.println("Tamaño: " + width + "x" + height);
-//		    System.out.println();
 		}
 	    }
 	} catch (IOException e) {
@@ -156,14 +146,8 @@ public class BuscarCirculos {
 	int tamanoReferenciaDerecha = referenciaRespuesta - x;
 	int comparacion = tamanoReferenciaDerecha - x;
 	if (comparacion >= 60 || comparacion <= -60) {
-//			JOptionPane.showMessageDialog(null,
-//					"Error en la resolución de la imagen, intenta escanearla lo más centrada posible, gracias.",
-//					"Resolución Erronea", JOptionPane.INFORMATION_MESSAGE);
-//			PantallaPrincipal principal = new PantallaPrincipal();
-//			principal.abrirExamen();
 
 	} else {
-//	    System.out.println("final");
 	    invertirOscurecer(imagePath, y);
 	    examenAlumno = buscarCirculos(y, x);
 
@@ -173,12 +157,7 @@ public class BuscarCirculos {
     }
 
     public Map<String, String> calcularNota(JSONArray plantillaString) throws JSONException, IOException {
-	// JSONArray plantillaString = utilidades.json(indexCodigo);
-
-	// BusquedaCirculos bCirculos = new BusquedaCirculos();
-	// Map<Integer, String> examenAlumno = bCirculos.buscarRespuestas(imagePath);
 	Map<String, String> notas = new HashMap<>();
-//	System.out.println("leerNotas");
 	ArrayList<Integer> resultado = new ArrayList<>();
 	int aciertos = 0;
 	int falladas = 0;
@@ -205,8 +184,6 @@ public class BuscarCirculos {
 	}
 	double notaFinal = resultado.stream().reduce(0, (a, b) -> a + b);
 	double notaReal = notaFinal / 4;
-
-//	System.out.print(notaFinal / 4);
 
 	notas.put("notaFinal", String.valueOf(notaReal));
 	notas.put("aciertos", String.valueOf(aciertos));
@@ -292,28 +269,6 @@ public class BuscarCirculos {
 		}
 	    });
 	}
-//	    // Mostrar resultados con numeración
-//	    for (int ii = 0; ii < whiteCircles.size(); ii++) {
-//		Point p = whiteCircles.get(ii);
-//		Par pares = new Par(p.x, p.y);
-//		lista.add(pares);
-//		// Dibujar el número en el centro del círculo
-//		Imgproc.putText(src, String.valueOf(ii + 1), new Point(p.x - radius / 2, p.y + radius / 2),
-//			Imgproc.FONT_HERSHEY_PLAIN, 1, new Scalar(255, 0, 0), 2);
-//	    }
-//
-//	}
-
-//	Collections.sort(whiteCircles, new Comparator<Point>() {
-//	    @Override
-//	    public int compare(Point p1, Point p2) {
-//		if (p1.y != p2.y) {
-//		    return Double.compare(p1.y, p2.y);
-//		} else {
-//		    return Double.compare(p1.x, p2.x);
-//		}
-//	    }
-//	});
 
 	// Guardar la imagen resultante con los círculos detectados
 	Imgcodecs.imwrite(rutaCirculos, src);
@@ -323,7 +278,6 @@ public class BuscarCirculos {
 	    Par pares = new Par(p.x, p.y);
 	    lista.add(pares);
 	}
-//	System.out.println("Lista maldita " + lista.size());
 
 	return lista;
 
