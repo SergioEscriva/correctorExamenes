@@ -242,7 +242,7 @@ public class PantallaPrincipal extends JFrame {
 		tfIntroducirPlantilla.getSelectedText();
 	    }
 	});
-	tfIntroducirPlantilla.setText("Introducir N.º Plantilla");
+	tfIntroducirPlantilla.setText("00001"); // "Introducir N.º Plantilla"
 	tfIntroducirPlantilla.setBounds(58, 434, 183, 25);
 	panel.add(tfIntroducirPlantilla);
 	tfIntroducirPlantilla.setColumns(10);
