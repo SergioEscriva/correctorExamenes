@@ -133,6 +133,7 @@ public class NumerarCirculos {
 			Par fila = new Par(xx, yy);
 			circulosList.add(fila);
 		}
+
 		System.out.println("CL " + circulosList);
 		System.out.println("CL1" + circulosList.get(0));
 
@@ -148,6 +149,7 @@ public class NumerarCirculos {
 	}
 
 	public Map<String, Par> numeroRespuesta(List<Par> circulosList, int y) {
+		System.out.println("puntos1" + circulosList.size());
 		Map<String, Par> listaNumerosLetras = new HashMap<>();
 		int a1 = 0;
 		int a2 = 0;
@@ -175,17 +177,19 @@ public class NumerarCirculos {
 				break;
 			}
 
-			for (int i = 0; i <= 9; i++) {
+			for (int i = a1; i <= a2; i++) {
 				Par parNumeradosPar = circulosList.get(i);
 				int number = numeroPregunta(circulosList.get(i), y);
 				String valorLetra = String.valueOf(number) + letra;
 				listaNumerosLetras.put(valorLetra, parNumeradosPar);
+
 			}
 			for (int i = a1 + 40; i <= a2 + 40; i++) {
 				Par parNumeradosPar = circulosList.get(i);
 				int number = numeroPregunta(circulosList.get(i), y);
 				String valorLetra = String.valueOf(number) + letra;
 				listaNumerosLetras.put(valorLetra, parNumeradosPar);
+
 			}
 
 			for (int i = a1 + 80; i <= a2 + 80; i++) {
@@ -193,14 +197,19 @@ public class NumerarCirculos {
 				int number = numeroPregunta(circulosList.get(i), y);
 				String valorLetra = String.valueOf(number) + letra;
 				listaNumerosLetras.put(valorLetra, parNumeradosPar);
+
 			}
 			for (int i = a1 + 120; i <= a2 + 120; i++) {
 				Par parNumeradosPar = circulosList.get(i);
 				int number = numeroPregunta(circulosList.get(i), y);
 				String valorLetra = String.valueOf(number) + letra;
 				listaNumerosLetras.put(valorLetra, parNumeradosPar);
+
 			}
 		}
+
+		System.out.println("lista " + listaNumerosLetras.size());
+		System.out.println(" whiteCircles " + listaNumerosLetras);
 		return listaNumerosLetras;
 
 	}
