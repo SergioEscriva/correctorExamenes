@@ -205,11 +205,11 @@ public class CirculosMarcados {
 
 	double numero = fila.getNumeroY();
 	int horquilla = (int) Math.ceil((numero - horquillaInicial) / horquillaSize) + 1;
-	if (horquilla == 10) {
-	    numero1 = numero1 + 10;
+	// if (horquilla == 10) {
+	// numero1 = numero1 + 10;
 
-	}
-	horquilla = horquilla + (numero1);
+	// }
+	// horquilla = horquilla + (numero1);
 
 	return horquilla;
     }

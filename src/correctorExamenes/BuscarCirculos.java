@@ -36,6 +36,7 @@ public class BuscarCirculos {
     private static Utilidades utilidades = new Utilidades();
     private static String imagePath;
     private static Map<Integer, String> examenAlumno;
+    private static List<Par> allCircles;
 
     public static Map<Integer, String> buscarCirculos(int y, int x) throws JSONException, IOException {
 	// Cargar la imagen
@@ -48,7 +49,7 @@ public class BuscarCirculos {
 	    return null;
 	}
 
-	List<Par> allCircles = rebuscarCirculos(srcBlack, "all");
+	allCircles = rebuscarCirculos(srcBlack, "all");
 	List<Par> white1Circles = rebuscarCirculos(srcWhite, "white");
 	// Convertir la imagen a escala de grises necesario para que se vea mejor
 
@@ -322,4 +323,5 @@ public class BuscarCirculos {
 	return lista;
 
     }
+
 }
