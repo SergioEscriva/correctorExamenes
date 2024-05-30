@@ -52,12 +52,12 @@ public class BuscarCirculos {
 	allCircles = rebuscarCirculos(srcBlack, "all");
 
 	List<Par> white1Circles = rebuscarCirculos(srcWhite, "white");
-
-	CirculosMarcados busqueda = new CirculosMarcados();
-	examenAlumno = busqueda.busquedaLetras(allCircles, white1Circles, x, y);
+//
+//	CirculosMarcados busqueda = new CirculosMarcados();
+//	examenAlumno = busqueda.busquedaLetras(allCircles, white1Circles, x, y);
 
 	NumerarMarcados numerarMarcados = new NumerarMarcados();
-	numerarMarcados.busquedaLetras(allCircles, white1Circles, x, y);
+	examenAlumno = numerarMarcados.busquedaLetras(allCircles, white1Circles, x, y);
 
 	return examenAlumno;
 
@@ -142,18 +142,18 @@ public class BuscarCirculos {
 	}
 
 	// Comprueba que la imagen esté centrada según la palabra Respuestas.
-//	int referenciaRespuesta = tamanoImagen - 234;
-//	int tamanoReferenciaDerecha = referenciaRespuesta - x;
-//	int comparacion = tamanoReferenciaDerecha - x;
-//	if (comparacion >= 60 || comparacion <= -60) {
-//
-//	} else {
-	invertirOscurecer(imagePath, y);
-	examenAlumno = buscarCirculos(y, x);
+	int referenciaRespuesta = tamanoImagen - 234;
+	int tamanoReferenciaDerecha = referenciaRespuesta - x;
+	int comparacion = tamanoReferenciaDerecha - x;
+	if (comparacion >= 60 || comparacion <= -60) {
 
-	return examenAlumno;
-//	}
-	// return blancoMap;
+	} else {
+	    invertirOscurecer(imagePath, y);
+	    examenAlumno = buscarCirculos(y, x);
+
+	    return examenAlumno;
+	}
+	return blancoMap;
     }
 
     public Map<String, String> calcularNota(JSONArray plantillaString) throws JSONException, IOException {

@@ -21,7 +21,6 @@ public class NumerarMarcados {
 
 	for (Map.Entry<String, Par> entry : todosNumeradosMap.entrySet()) {
 	    String llave = entry.getKey();
-	    // String str = "removea";
 	    String llaveNumero = llave.replaceFirst(".$", "");
 	    String llaveLetra = "";
 	    if (Integer.valueOf(llaveNumero) < 10) {
@@ -33,20 +32,19 @@ public class NumerarMarcados {
 	    Par value = entry.getValue();
 	    for (Par respuestas : whiteCircles) {
 		if (respuestas.toString().contains(value.toString())) {
-		    System.out.println("EEEEEntroooooo");
-		    circulosMarcados.put(Integer.valueOf(llaveNumero), llaveLetra);
+		    System.out.println(circulosMarcados.get(Integer.valueOf(llaveNumero)));
+		    if (circulosMarcados.get(Integer.valueOf(llaveNumero)).equals("Empty")) {
+			circulosMarcados.put(Integer.valueOf(llaveNumero), llaveLetra);
+		    } else {
+			circulosMarcados.put(Integer.valueOf(llaveNumero), "Nula");
+		    }
+
 		}
 
 	    }
 
 	}
-
-	// Map<Integer, String> examenAlumno;
-
-	System.out.println(" allCircles " + allCircles);
-	System.out.println(" whiteCircles " + whiteCircles);
-	System.out.println("CirculosCorrectos " + todosNumeradosMap.size());
-	System.out.println("CirculosCorrectos " + circulosMarcados);
+	System.out.println(circulosMarcados);
 	return circulosMarcados;
 
     }
