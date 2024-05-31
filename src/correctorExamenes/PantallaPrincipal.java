@@ -103,9 +103,6 @@ public class PantallaPrincipal extends JFrame {
 		    abrirExamen();
 
 		}
-
-//				cargarPlantilla();
-
 	    }
 	});
 
@@ -235,7 +232,7 @@ public class PantallaPrincipal extends JFrame {
 	panel.add(tfIntroducirPlantilla);
 	tfIntroducirPlantilla.setColumns(10);
 
-	JLabel lblNmeroDePlantilla = new JLabel("Número de Plantilla:");
+	JLabel lblNmeroDePlantilla = new JLabel("Identificador de Plantilla:");
 	lblNmeroDePlantilla.setForeground(Color.WHITE);
 	lblNmeroDePlantilla.setBounds(33, 417, 235, 15);
 	panel.add(lblNmeroDePlantilla);
@@ -343,22 +340,21 @@ public class PantallaPrincipal extends JFrame {
 	} else {
 	    // rutaPlantilla = dialogoFicheros.abrirExplorador();
 
-	    frame1.setVisible(false);
+	    // frame1.setVisible(false);
 
 	}
 
-	// plantillaCorrecion = busquedaCirculos.buscarRespuestas(rutaPlantilla);
 	return plantillaCorrecion;
     }
 
     public void crearVentanaExamen(String codigoTest) {
 
 	frame1 = new JFrame("Crear Plantilla");
-	frame1.setSize(273, 150);
-	frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame1.setSize(258, 150);
+	frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	frame1.setLocationRelativeTo(null);
 
-	JPanel panel = new JPanel();
+	panel = new JPanel();
 	frame1.getContentPane().add(panel);
 	placeComponents(panel, codigoTest);
 
@@ -370,11 +366,12 @@ public class PantallaPrincipal extends JFrame {
 
 	panel.setLayout(null);
 
-	JLabel plantillaLabel = new JLabel("Código de Test");
+	JLabel plantillaLabel = new JLabel("Identificador Nuevo:");
 	plantillaLabel.setBounds(20, 10, 200, 25);
 	panel.add(plantillaLabel);
 
 	JTextField plantillaText = new JTextField(20);
+	plantillaText.setEditable(false);
 	plantillaText.setBounds(20, 35, 218, 25);
 	plantillaText.setText(codigoTest);
 	panel.add(plantillaText);
@@ -398,7 +395,7 @@ public class PantallaPrincipal extends JFrame {
 		    e1.printStackTrace();
 		}
 		cargarPlantilla();
-		frame1.setVisible(false);
+
 	    }
 	});
 	nuevaPlantillaButton.setBounds(10, 80, 110, 25);
@@ -421,6 +418,7 @@ public class PantallaPrincipal extends JFrame {
 	try {
 
 	    try {
+
 		lblPlantillaCorrecion.setForeground(Color.GREEN);
 		listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
 
@@ -431,6 +429,7 @@ public class PantallaPrincipal extends JFrame {
 		    listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
 
 		} else {
+		    frame1.setVisible(false);
 		    String numeroPlantillaString = tfIntroducirPlantilla.getText();
 		    lblPlantillaCorrecion.setText("Plantilla " + numeroPlantillaString + " cargada correctamente.");
 		}
