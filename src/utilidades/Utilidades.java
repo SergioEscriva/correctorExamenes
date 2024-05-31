@@ -22,7 +22,6 @@ public class Utilidades extends JFrame {
     private static final String JSON_FILE_PATH = "src/Json/codigos.json";
 
     public JSONArray json(String codigo) throws JSONException, IOException {
-	System.out.println("Entrando json()");
 //	String filePath = "src/Json/codigos.json"; // Reemplaza con la ruta correcta
 	JSONArray jsonArray = new JSONArray();
 
@@ -52,7 +51,6 @@ public class Utilidades extends JFrame {
 		e.printStackTrace();
 	    }
 	}
-	System.out.println("jsonArray" + jsonArray);
 
 	return jsonArray;
     }
@@ -109,7 +107,6 @@ public class Utilidades extends JFrame {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-	System.out.println("pasando");
 
     }
 

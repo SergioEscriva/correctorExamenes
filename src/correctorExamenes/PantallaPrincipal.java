@@ -126,12 +126,14 @@ public class PantallaPrincipal extends JFrame {
 	panel.add(btnPlantilla);
 
 	lblPlantilla = new JLabel("Plantilla de correción:");
+	lblPlantilla.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblPlantilla.setVisible(true);
 	lblPlantilla.setForeground(new Color(255, 255, 255));
 	lblPlantilla.setBounds(33, 70, 235, 15);
 	panel.add(lblPlantilla);
 
 	lblPlantillaCorrecion = new JLabel("Cargar plantilla para comenzar a corregir. ");
+	lblPlantillaCorrecion.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblPlantillaCorrecion.setVisible(false);
 	lblPlantillaCorrecion.setForeground(Color.WHITE);
 	lblPlantillaCorrecion.setBounds(33, 86, 471, 30);
@@ -139,73 +141,83 @@ public class PantallaPrincipal extends JFrame {
 
 	lblExamenCorrecion = new JLabel("Cargar examen para comenzar a corregir.");
 	lblExamenCorrecion.setVisible(false);
-	lblExamenCorrecion.setFont(new Font("Dialog", Font.BOLD, 12));
+	lblExamenCorrecion.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblExamenCorrecion.setForeground(Color.WHITE);
 	lblExamenCorrecion.setBounds(33, 150, 475, 30);
 	panel.add(lblExamenCorrecion);
 
 	lblExamen_1 = new JLabel("Examen a corregir:");
+	lblExamen_1.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblExamen_1.setVisible(true);
 	lblExamen_1.setForeground(Color.WHITE);
 	lblExamen_1.setBounds(33, 138, 235, 15);
 	panel.add(lblExamen_1);
 
 	lblNota = new JLabel("Nota de Examen");
+	lblNota.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblNota.setVisible(false);
 	lblNota.setForeground(Color.WHITE);
-	lblNota.setBounds(94, 204, 125, 15);
+	lblNota.setBounds(63, 205, 171, 15);
 	panel.add(lblNota);
 
 	lblNotaCalculada = new JLabel("Sin Calificación");
 	lblNotaCalculada.setVisible(false);
 	lblNotaCalculada.setFont(new Font("Dialog", Font.BOLD, 16));
 	lblNotaCalculada.setForeground(Color.WHITE);
-	lblNotaCalculada.setBounds(94, 220, 139, 62);
+	lblNotaCalculada.setBounds(63, 221, 171, 62);
 	panel.add(lblNotaCalculada);
 
 	lblAcertadas = new JLabel("Acertadas: ");
+	lblAcertadas.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblAcertadas.setVisible(false);
 	lblAcertadas.setForeground(Color.WHITE);
 	lblAcertadas.setBounds(299, 205, 88, 15);
 	panel.add(lblAcertadas);
 
 	lblFalladas = new JLabel("Falladas: ");
+	lblFalladas.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblFalladas.setVisible(false);
 	lblFalladas.setForeground(Color.WHITE);
 	lblFalladas.setBounds(299, 230, 88, 15);
 	panel.add(lblFalladas);
 
 	lblBlanco = new JLabel("En Blanco: ");
+	lblBlanco.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblBlanco.setVisible(false);
 	lblBlanco.setForeground(Color.WHITE);
 	lblBlanco.setBounds(299, 257, 88, 15);
 	panel.add(lblBlanco);
 
 	lblNulas = new JLabel("Nulas:  ");
+	lblNulas.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblNulas.setVisible(false);
 	lblNulas.setForeground(Color.WHITE);
 	lblNulas.setBounds(299, 284, 88, 15);
 	panel.add(lblNulas);
 
 	lblNulas_2 = new JLabel("0");
+	lblNulas_2.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblNulas_2.setVisible(false);
 	lblNulas_2.setForeground(Color.WHITE);
 	lblNulas_2.setBounds(402, 283, 88, 15);
 	panel.add(lblNulas_2);
 
 	lblEnBlanco = new JLabel("0");
+	lblEnBlanco.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblEnBlanco.setVisible(false);
 	lblEnBlanco.setForeground(Color.WHITE);
 	lblEnBlanco.setBounds(402, 256, 88, 15);
 	panel.add(lblEnBlanco);
 
 	lblFalladas_2 = new JLabel("0");
+	lblFalladas_2.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblFalladas_2.setVisible(false);
 	lblFalladas_2.setForeground(Color.WHITE);
 	lblFalladas_2.setBounds(402, 229, 88, 15);
 	panel.add(lblFalladas_2);
 
 	lblAcertadas_2 = new JLabel("0");
+	lblAcertadas_2.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblAcertadas_2.setVisible(false);
 	lblAcertadas_2.setForeground(Color.WHITE);
 	lblAcertadas_2.setBounds(402, 204, 88, 15);
@@ -271,8 +283,6 @@ public class PantallaPrincipal extends JFrame {
 		DialogoFicheros dialogoFicheros = new DialogoFicheros();
 		String rutaExamen = dialogoFicheros.abrirExplorador();
 		if (rutaExamen != null) {
-		    System.out.println("Error Archivo");
-
 		    examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
 		}
 
@@ -301,7 +311,6 @@ public class PantallaPrincipal extends JFrame {
 		    lblExamenCorrecion.setForeground(Color.RED);
 		    lblExamenCorrecion.setVisible(true);
 		    lblExamenCorrecion.setText("Imagen no válida. Por favor Introduzca una imagen centrada");
-		    lblExamenCorrecion.setFont(new Font("Dialog", Font.BOLD, 16));
 
 		}
 
@@ -337,11 +346,6 @@ public class PantallaPrincipal extends JFrame {
 
 	if (rutaPlantilla != null) {
 	    plantillaCorrecion = busquedaCirculos.buscarRespuestas(rutaPlantilla);
-	} else {
-	    // rutaPlantilla = dialogoFicheros.abrirExplorador();
-
-	    // frame1.setVisible(false);
-
 	}
 
 	return plantillaCorrecion;
@@ -429,7 +433,7 @@ public class PantallaPrincipal extends JFrame {
 		    listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
 
 		} else {
-		    frame1.setVisible(false);
+
 		    String numeroPlantillaString = tfIntroducirPlantilla.getText();
 		    lblPlantillaCorrecion.setText("Plantilla " + numeroPlantillaString + " cargada correctamente.");
 		}

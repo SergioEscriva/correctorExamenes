@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class NumerarMarcados {
     public Map<Integer, String> busquedaLetras(List<Par> allCircles, List<Par> whiteCircles, int x, int y) {
-	NumerarTodos numerarTodos = new NumerarTodos();
+	NumerarCirculos numerarTodos = new NumerarCirculos();
 	NumerarMarcados numerarMarcados = new NumerarMarcados();
 
 	Map<String, Par> todosNumeradosMap = numerarTodos.busquedaLetras(allCircles, y); // Todos los circulos
@@ -43,7 +43,7 @@ public class NumerarMarcados {
 	    }
 
 	}
-	System.out.println(circulosMarcados);
+	System.out.println("46NumMarc: " + circulosMarcados.size() + " Marcados --> " + circulosMarcados);
 	return circulosMarcados;
 
     }

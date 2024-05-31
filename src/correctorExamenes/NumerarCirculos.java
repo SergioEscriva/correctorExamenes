@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NumerarTodos {
+public class NumerarCirculos {
     private int numero1 = 0;
 
     public Map<String, Par> busquedaLetras(List<Par> allCircles, int y) {
@@ -54,7 +54,7 @@ public class NumerarTodos {
     }
 
     public Map<String, Par> numeroRespuesta(List<Par> circulosList, int y) {
-//	System.out.println("puntos1" + circulosList.size());
+
 	Map<String, Par> listaNumerosLetras = new HashMap<>();
 
 	int a1 = 0;

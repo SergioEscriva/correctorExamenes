@@ -61,11 +61,12 @@ public class BuscarCirculos {
 
     }
 
-    public static void invertirOscurecer(String imagePath, int intY) throws IOException, JSONException {
-	File file = new File(imagePath);
-	BufferedImage img = ImageIO.read(file);
+    public static void invertirOscurecer(BufferedImage img, int intY) throws IOException, JSONException {
 
-	// Invierte los valores RGB de cada pixel
+	// File file = new File(imagePath);
+	// BufferedImage img = ImageIO.read(file);
+
+//	// Invierte los valores RGB de cada pixel
 	for (int y = 0; y < img.getHeight(); y++) {
 	    for (int x = 0; x < img.getWidth(); x++) {
 		int pixel = img.getRGB(x, y);
@@ -73,6 +74,7 @@ public class BuscarCirculos {
 		int g = (pixel >> 8) & 0xff;
 		int b = pixel & 0xff;
 		int nuevoPixel = (255 - r) << 16 | (255 - g) << 8 | (255 - b);
+
 		img.setRGB(x, y, nuevoPixel);
 	    }
 	}
@@ -98,6 +100,11 @@ public class BuscarCirculos {
 
     public static Map<Integer, String> buscarRespuestas(String imagePath) throws IOException, JSONException {
 
+	File input = new File(imagePath);
+
+	// Leer el archivo de imagen y convertirlo a BufferedImage
+	image = ImageIO.read(input);
+
 	// Crear una instancia de Tesseract
 	Map<Integer, String> blancoMap = new HashMap<Integer, String>();
 	ITesseract tesseract = new Tesseract();
@@ -114,27 +121,19 @@ public class BuscarCirculos {
 	int y = 0;
 	int x = 0;
 	int tamanoImagen = 0;
-	try {
+	tamanoImagen = image.getWidth();
+	// Realizar OCR en la imagen y obtener las palabras
+	List<Word> words = tesseract.getWords(image, TessAPI.TessPageIteratorLevel.RIL_WORD);
 
-	    // Leer el archivo de imagen y convertirlo a BufferedImage
-	    image = ImageIO.read(new File(imagePath));
-
-	    tamanoImagen = image.getWidth();
-	    // Realizar OCR en la imagen y obtener las palabras
-	    List<Word> words = tesseract.getWords(image, TessAPI.TessPageIteratorLevel.RIL_WORD);
-
-	    // Imprimir las coordenadas de cada palabra
-	    for (Word word : words) {
-		String text = word.getText();
-		if (text.equals("RESPUESTAS")) {
-		    x = word.getBoundingBox().x;
-		    y = word.getBoundingBox().y;
-		    int width = word.getBoundingBox().width;
-		    int height = word.getBoundingBox().height;
-		}
+	// Imprimir las coordenadas de cada palabra
+	for (Word word : words) {
+	    String text = word.getText();
+	    if (text.equals("RESPUESTAS")) {
+		x = word.getBoundingBox().x;
+		y = word.getBoundingBox().y;
+		int width = word.getBoundingBox().width;
+		int height = word.getBoundingBox().height;
 	    }
-	} catch (IOException e) {
-	    e.printStackTrace();
 	}
 
 //	// Comprueba que la imagen esté centrada según la palabra Respuestas.
@@ -144,7 +143,7 @@ public class BuscarCirculos {
 	if (comparacion >= 60 || comparacion <= -60) {
 
 	} else {
-	    invertirOscurecer(imagePath, y);
+	    invertirOscurecer(image, y);
 	    examenAlumno = buscarCirculos(y, x);
 
 	    return examenAlumno;
