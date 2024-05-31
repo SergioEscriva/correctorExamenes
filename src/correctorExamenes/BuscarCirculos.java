@@ -157,6 +157,7 @@ public class BuscarCirculos {
     }
 
     public Map<String, String> calcularNota(JSONArray plantillaString) throws JSONException, IOException {
+
 	Map<String, String> notas = new HashMap<>();
 	ArrayList<Integer> resultado = new ArrayList<>();
 	int aciertos = 0;

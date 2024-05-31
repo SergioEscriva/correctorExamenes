@@ -71,7 +71,7 @@ public class PantallaPrincipal extends JFrame {
 
     public PantallaPrincipal() throws JSONException, IOException {
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setBounds(100, 100, 1091, 571);
+	setBounds(100, 100, 523, 571);
 	contentPane = new JPanel();
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	this.setLocationRelativeTo(null);
@@ -80,7 +80,7 @@ public class PantallaPrincipal extends JFrame {
 	contentPane.setLayout(null);
 
 	panel = new JPanel();
-	panel.setBounds(-14, -29, 1088, 568);
+	panel.setBounds(0, 0, 520, 539);
 	panel.setPreferredSize(new Dimension(450, 300));
 	panel.setBackground(new Color(9, 37, 72));
 	contentPane.add(panel);
@@ -105,7 +105,7 @@ public class PantallaPrincipal extends JFrame {
 	    }
 	});
 
-	btnExamen.setBounds(283, 434, 206, 62);
+	btnExamen.setBounds(284, 434, 206, 62);
 	panel.add(btnExamen);
 
 	// Botón cargar plantilla
@@ -122,7 +122,9 @@ public class PantallaPrincipal extends JFrame {
 
 		    try {
 			listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
-			lblPlantillaCorrecion.setText(listaPlantillas.toString());
+			String numeroPlantillaString = tfIntroducirPlantilla.getText();
+			lblPlantillaCorrecion.setText("Plantilla " + numeroPlantillaString + " cargada correctamente.");
+			lblPlantillaCorrecion.setBackground(Color.GREEN);
 		    } catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -137,93 +139,93 @@ public class PantallaPrincipal extends JFrame {
 	    }
 
 	});
-	btnPlantilla.setBounds(58, 471, 183, 25);
+	btnPlantilla.setBounds(33, 471, 183, 25);
 	panel.add(btnPlantilla);
 
-	lblPlantilla = new JLabel("Plantilla de Correción:");
+	lblPlantilla = new JLabel("Plantilla de correción:");
 	lblPlantilla.setVisible(false);
 	lblPlantilla.setForeground(new Color(255, 255, 255));
-	lblPlantilla.setBounds(37, 76, 235, 15);
+	lblPlantilla.setBounds(33, 70, 235, 15);
 	panel.add(lblPlantilla);
 
-	lblPlantillaCorrecion = new JLabel("Plantilla ");
+	lblPlantillaCorrecion = new JLabel("Cargar plantilla para comenzar a corregir. ");
 	lblPlantillaCorrecion.setVisible(false);
 	lblPlantillaCorrecion.setForeground(Color.WHITE);
-	lblPlantillaCorrecion.setBounds(37, 104, 1039, 30);
+	lblPlantillaCorrecion.setBounds(33, 86, 471, 30);
 	panel.add(lblPlantillaCorrecion);
 
-	lblExamenCorrecion = new JLabel("Examen a corregir");
+	lblExamenCorrecion = new JLabel("Cargar examen para comenzar a corregir.");
 	lblExamenCorrecion.setVisible(false);
 	lblExamenCorrecion.setFont(new Font("Dialog", Font.BOLD, 12));
 	lblExamenCorrecion.setForeground(Color.WHITE);
-	lblExamenCorrecion.setBounds(37, 156, 1039, 30);
+	lblExamenCorrecion.setBounds(33, 150, 475, 30);
 	panel.add(lblExamenCorrecion);
 
-	lblExamen_1 = new JLabel("Examen Alumno");
+	lblExamen_1 = new JLabel("Examen a corregir:");
 	lblExamen_1.setVisible(false);
 	lblExamen_1.setForeground(Color.WHITE);
-	lblExamen_1.setBounds(37, 142, 235, 15);
+	lblExamen_1.setBounds(33, 138, 235, 15);
 	panel.add(lblExamen_1);
 
 	lblNota = new JLabel("Nota de Examen");
 	lblNota.setVisible(false);
 	lblNota.setForeground(Color.WHITE);
-	lblNota.setBounds(37, 224, 235, 15);
+	lblNota.setBounds(94, 204, 125, 15);
 	panel.add(lblNota);
 
 	lblNotaCalculada = new JLabel("Sin Calificación");
 	lblNotaCalculada.setVisible(false);
 	lblNotaCalculada.setFont(new Font("Dialog", Font.BOLD, 16));
 	lblNotaCalculada.setForeground(Color.WHITE);
-	lblNotaCalculada.setBounds(37, 238, 259, 62);
+	lblNotaCalculada.setBounds(94, 220, 139, 62);
 	panel.add(lblNotaCalculada);
 
 	lblAcertadas = new JLabel("Acertadas: ");
 	lblAcertadas.setVisible(false);
 	lblAcertadas.setForeground(Color.WHITE);
-	lblAcertadas.setBounds(509, 238, 88, 15);
+	lblAcertadas.setBounds(299, 205, 88, 15);
 	panel.add(lblAcertadas);
 
 	lblFalladas = new JLabel("Falladas: ");
 	lblFalladas.setVisible(false);
 	lblFalladas.setForeground(Color.WHITE);
-	lblFalladas.setBounds(509, 263, 88, 15);
+	lblFalladas.setBounds(299, 230, 88, 15);
 	panel.add(lblFalladas);
 
 	lblBlanco = new JLabel("En Blanco: ");
 	lblBlanco.setVisible(false);
 	lblBlanco.setForeground(Color.WHITE);
-	lblBlanco.setBounds(509, 290, 88, 15);
+	lblBlanco.setBounds(299, 257, 88, 15);
 	panel.add(lblBlanco);
 
 	lblNulas = new JLabel("Nulas:  ");
 	lblNulas.setVisible(false);
 	lblNulas.setForeground(Color.WHITE);
-	lblNulas.setBounds(509, 317, 88, 15);
+	lblNulas.setBounds(299, 284, 88, 15);
 	panel.add(lblNulas);
 
 	lblNulas_2 = new JLabel("0");
 	lblNulas_2.setVisible(false);
 	lblNulas_2.setForeground(Color.WHITE);
-	lblNulas_2.setBounds(612, 316, 88, 15);
+	lblNulas_2.setBounds(402, 283, 88, 15);
 	panel.add(lblNulas_2);
 
 	lblEnBlanco = new JLabel("0");
 	lblEnBlanco.setVisible(false);
 	lblEnBlanco.setForeground(Color.WHITE);
-	lblEnBlanco.setBounds(612, 289, 88, 15);
+	lblEnBlanco.setBounds(402, 256, 88, 15);
 	panel.add(lblEnBlanco);
 
 	lblFalladas_2 = new JLabel("0");
 	lblFalladas_2.setVisible(false);
 	lblFalladas_2.setForeground(Color.WHITE);
-	lblFalladas_2.setBounds(612, 262, 88, 15);
+	lblFalladas_2.setBounds(402, 229, 88, 15);
 	panel.add(lblFalladas_2);
 
 	lblAcertadas_2 = new JLabel("0");
 	lblAcertadas_2.setVisible(false);
 	lblAcertadas_2.setForeground(Color.WHITE);
-	lblAcertadas_2.setBounds(612, 237, 88, 15);
+	lblAcertadas_2.setBounds(402, 204, 88, 15);
 	panel.add(lblAcertadas_2);
 
 	// Selecciona el texto de la ventana de numero de plantilla
@@ -243,19 +245,25 @@ public class PantallaPrincipal extends JFrame {
 	    }
 	});
 	tfIntroducirPlantilla.setText("00001"); // "Introducir N.º Plantilla"
-	tfIntroducirPlantilla.setBounds(58, 434, 183, 25);
+	tfIntroducirPlantilla.setBounds(33, 434, 183, 25);
 	panel.add(tfIntroducirPlantilla);
 	tfIntroducirPlantilla.setColumns(10);
 
 	JLabel lblNmeroDePlantilla = new JLabel("Número de Plantilla:");
 	lblNmeroDePlantilla.setForeground(Color.WHITE);
-	lblNmeroDePlantilla.setBounds(58, 417, 235, 15);
+	lblNmeroDePlantilla.setBounds(33, 417, 235, 15);
 	panel.add(lblNmeroDePlantilla);
 
 	JLabel lblExamen_1_1 = new JLabel("Examen Alumno");
 	lblExamen_1_1.setForeground(Color.WHITE);
-	lblExamen_1_1.setBounds(283, 417, 235, 15);
+	lblExamen_1_1.setBounds(284, 417, 189, 15);
 	panel.add(lblExamen_1_1);
+
+	JLabel lblTitulo = new JLabel("Corrector de Exámenes");
+	lblTitulo.setFont(new Font("Dialog", Font.BOLD, 24));
+	lblTitulo.setForeground(new Color(246, 245, 244));
+	lblTitulo.setBounds(95, 12, 325, 29);
+	panel.add(lblTitulo);
 
     }
 
@@ -295,7 +303,7 @@ public class PantallaPrincipal extends JFrame {
 
 		    lblExamenCorrecion.setForeground(Color.WHITE);
 
-		    lblExamenCorrecion.setText(examenalumnoMap.toString());
+		    lblExamenCorrecion.setText("Examen cargado correctamente.");
 		} else {
 		    lblNotaCalculada.setText("Nota de Examen");
 		    lblNotaCalculada.setForeground(Color.WHITE);
