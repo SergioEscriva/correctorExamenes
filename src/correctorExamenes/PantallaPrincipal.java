@@ -99,10 +99,12 @@ public class PantallaPrincipal extends JFrame {
 		btnExamen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (btnExamen.isEnabled()) {
+					abrirExamen();
+					lblExamen_1.setVisible(true);
+				}
 
-				lblExamen_1.setVisible(true);
 //				cargarPlantilla();
-				abrirExamen();
 
 			}
 		});
@@ -334,7 +336,7 @@ public class PantallaPrincipal extends JFrame {
 	public void crearVentanaExamen(String codigoTest) {
 
 		frame = new JFrame("Crear Plantilla");
-		frame.setSize(220, 150);
+		frame.setSize(273, 150);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 
@@ -355,7 +357,7 @@ public class PantallaPrincipal extends JFrame {
 		panel.add(plantillaLabel);
 
 		JTextField plantillaText = new JTextField(20);
-		plantillaText.setBounds(20, 35, 180, 25);
+		plantillaText.setBounds(20, 35, 218, 25);
 		plantillaText.setText(codigoTest);
 		panel.add(plantillaText);
 
@@ -381,7 +383,7 @@ public class PantallaPrincipal extends JFrame {
 				frame.setVisible(false);
 			}
 		});
-		nuevaPlantillaButton.setBounds(20, 80, 80, 25);
+		nuevaPlantillaButton.setBounds(10, 80, 110, 25);
 		panel.add(nuevaPlantillaButton);
 
 		JButton registerButton = new JButton("Cancelar");
@@ -393,7 +395,7 @@ public class PantallaPrincipal extends JFrame {
 			}
 		});
 
-		registerButton.setBounds(125, 80, 80, 25);
+		registerButton.setBounds(135, 80, 110, 25);
 		panel.add(registerButton);
 	}
 
@@ -411,6 +413,7 @@ public class PantallaPrincipal extends JFrame {
 					lblPlantillaCorrecion.setText("Creando plantilla " + tfIntroducirPlantilla.getText());
 					crearVentanaExamen(tfIntroducirPlantilla.getText());
 					listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
+
 				} else {
 					String numeroPlantillaString = tfIntroducirPlantilla.getText();
 					lblPlantillaCorrecion.setText("Plantilla " + numeroPlantillaString + " cargada correctamente.");
@@ -427,6 +430,7 @@ public class PantallaPrincipal extends JFrame {
 		btnExamen.setEnabled(true);
 		lblPlantilla.setVisible(true);
 		lblPlantillaCorrecion.setVisible(true);
+		btnExamen.setEnabled(true);
 
 	}
 
