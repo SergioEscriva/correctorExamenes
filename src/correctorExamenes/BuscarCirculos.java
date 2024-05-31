@@ -52,9 +52,6 @@ public class BuscarCirculos {
 	allCircles = rebuscarCirculos(srcBlack, "all");
 
 	List<Par> white1Circles = rebuscarCirculos(srcWhite, "white");
-//
-//	CirculosMarcados busqueda = new CirculosMarcados();
-//	examenAlumno = busqueda.busquedaLetras(allCircles, white1Circles, x, y);
 
 	NumerarMarcados numerarMarcados = new NumerarMarcados();
 	examenAlumno = numerarMarcados.busquedaLetras(allCircles, white1Circles, x, y);
@@ -92,17 +89,13 @@ public class BuscarCirculos {
 		    imagenNegra.setRGB(i, j, 0x00000000);
 		}
 	    }
-	    // lista.add(imagenNegra);
 	}
 
 	ImageIO.write(imagenNegra, "jpg", new File("./bnarchivo-negro.jpg")); // no tocar
-	// buscarCirculos(intY);
 
     }
 
     public static Map<Integer, String> buscarRespuestas(String imagePath) throws IOException, JSONException {
-	// imagePath = "src/correctorExamenes/examen3.jpg"; /// este es la imagen del
-	// examen que leerá
 
 	// Crear una instancia de Tesseract
 	Map<Integer, String> blancoMap = new HashMap<Integer, String>();
@@ -141,7 +134,7 @@ public class BuscarCirculos {
 	    e.printStackTrace();
 	}
 
-	// Comprueba que la imagen esté centrada según la palabra Respuestas.
+//	// Comprueba que la imagen esté centrada según la palabra Respuestas.
 	int referenciaRespuesta = tamanoImagen - 234;
 	int tamanoReferenciaDerecha = referenciaRespuesta - x;
 	int comparacion = tamanoReferenciaDerecha - x;

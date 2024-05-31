@@ -18,7 +18,6 @@ public class Utilidades {
     private static final String JSON_FILE_PATH = "src/Json/codigos.json";
 
     public JSONArray json(String codigo) throws JSONException, IOException {
-	System.out.println("json");
 	String filePath = "src/Json/codigos.json"; // Reemplaza con la ruta correcta
 	JSONArray list = new JSONArray();
 	try {

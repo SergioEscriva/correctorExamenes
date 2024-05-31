@@ -32,7 +32,6 @@ public class NumerarMarcados {
 	    Par value = entry.getValue();
 	    for (Par respuestas : whiteCircles) {
 		if (respuestas.toString().contains(value.toString())) {
-		    System.out.println(circulosMarcados.get(Integer.valueOf(llaveNumero)));
 		    if (circulosMarcados.get(Integer.valueOf(llaveNumero)).equals("Empty")) {
 			circulosMarcados.put(Integer.valueOf(llaveNumero), llaveLetra);
 		    } else {

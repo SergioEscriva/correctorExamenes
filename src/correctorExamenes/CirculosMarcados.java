@@ -23,7 +23,7 @@ public class CirculosMarcados {
 
 	    /// La X tiene una media de 807
 	    // Primera Fila
-	    int intA = x - 750;
+	    int intA = x - 750; // 750
 	    int intB = intA + 130; // intA + 68; // -- - 680
 	    int intC = intB + 61; // intB + 62; // -- -65
 	    int intD = intC + 60; // intC + 61; // -- 60
