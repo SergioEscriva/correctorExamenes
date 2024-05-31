@@ -80,7 +80,7 @@ public class PantallaPrincipal extends JFrame {
 	contentPane.setLayout(null);
 
 	panel = new JPanel();
-	panel.setBounds(0, 0, 520, 539);
+	panel.setBounds(0, 0, 535, 539);
 	panel.setPreferredSize(new Dimension(450, 300));
 	panel.setBackground(new Color(9, 37, 72));
 	contentPane.add(panel);
@@ -121,10 +121,10 @@ public class PantallaPrincipal extends JFrame {
 		try {
 
 		    try {
+			lblPlantillaCorrecion.setForeground(Color.GREEN);
 			listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
 			String numeroPlantillaString = tfIntroducirPlantilla.getText();
 			lblPlantillaCorrecion.setText("Plantilla " + numeroPlantillaString + " cargada correctamente.");
-			lblPlantillaCorrecion.setBackground(Color.GREEN);
 		    } catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -301,9 +301,8 @@ public class PantallaPrincipal extends JFrame {
 			lblNotaCalculada.setForeground(Color.green);
 		    }
 
-		    lblExamenCorrecion.setForeground(Color.WHITE);
-
-		    lblExamenCorrecion.setText("Examen cargado correctamente.");
+		    lblExamenCorrecion.setForeground(Color.GREEN);
+		    lblExamenCorrecion.setText("Examen cargado y corregido correctamente.");
 		} else {
 		    lblNotaCalculada.setText("Nota de Examen");
 		    lblNotaCalculada.setForeground(Color.WHITE);
