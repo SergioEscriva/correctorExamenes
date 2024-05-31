@@ -11,6 +11,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -122,7 +123,11 @@ public class PantallaPrincipal extends JFrame {
 
 		    try {
 			lblPlantillaCorrecion.setForeground(Color.GREEN);
-			listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
+			// listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
+			if (listaPlantillas == null) {
+			    crearVentanaExamen(tfIntroducirPlantilla.getText());
+			}
+
 			String numeroPlantillaString = tfIntroducirPlantilla.getText();
 			lblPlantillaCorrecion.setText("Plantilla " + numeroPlantillaString + " cargada correctamente.");
 		    } catch (Exception e1) {
@@ -267,7 +272,8 @@ public class PantallaPrincipal extends JFrame {
 
     }
 
-    public void abrirExamen() {
+    public static void abrirExamen() {
+	Map<Integer, String> examenalumnoMap = new HashMap<Integer, String>();
 	try {
 
 	    try {
@@ -286,7 +292,7 @@ public class PantallaPrincipal extends JFrame {
 		String rutaExamen = dialogoFicheros.abrirExplorador();
 
 		// BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
-		Map<Integer, String> examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
+		examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
 
 		if (!examenalumnoMap.isEmpty()) {
 		    Map<String, String> notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
@@ -334,5 +340,79 @@ public class PantallaPrincipal extends JFrame {
 	lblAcertadas_2.setVisible(true);
 	lblBlanco.setVisible(true);
 
+    }
+
+    public static Map<Integer, String> escanearPlantilla() throws IOException, JSONException {
+	DialogoFicheros dialogoFicheros = new DialogoFicheros();
+
+	String rutaPlantilla = dialogoFicheros.abrirExplorador();
+
+	BuscarCirculos busquedaCirculos = new BuscarCirculos();
+	Map<Integer, String> plantillaCorrecion = busquedaCirculos.buscarRespuestas(rutaPlantilla);
+	return plantillaCorrecion;
+    }
+
+    public static void crearVentanaExamen(String codigoTest) {
+
+	frame = new JFrame("Crear Plantilla");
+	frame.setSize(220, 150);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setLocationRelativeTo(null);
+
+	JPanel panel = new JPanel();
+	frame.getContentPane().add(panel);
+	placeComponents(panel, codigoTest);
+
+	frame.setVisible(true);
+
+    }
+
+    private static void placeComponents(JPanel panel, String codigoTest) {
+
+	panel.setLayout(null);
+
+	JLabel plantillaLabel = new JLabel("Código de Test");
+	plantillaLabel.setBounds(20, 10, 200, 25);
+	panel.add(plantillaLabel);
+
+	JTextField plantillaText = new JTextField(20);
+	plantillaText.setBounds(20, 35, 180, 25);
+	plantillaText.setText(codigoTest);
+	panel.add(plantillaText);
+
+	// Botón de abrir plantilla
+	JButton nuevaPlantillaButton = new JButton("Escanear");
+	nuevaPlantillaButton.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+
+		try {
+		    Map<Integer, String> plantillaCorrecionMap = escanearPlantilla();
+		    utilidades.guardarJson(plantillaCorrecionMap, codigoTest);
+		    frame.setVisible(false);
+		} catch (IOException e1) {
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		} catch (JSONException e1) {
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		}
+		frame.setVisible(false);
+	    }
+	});
+	nuevaPlantillaButton.setBounds(20, 80, 80, 25);
+	panel.add(nuevaPlantillaButton);
+
+	JButton registerButton = new JButton("Cancelar");
+	registerButton.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+
+		frame.setVisible(false);
+	    }
+	});
+
+	registerButton.setBounds(125, 80, 80, 25);
+	panel.add(registerButton);
     }
 }
