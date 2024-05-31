@@ -101,7 +101,7 @@ public class PantallaPrincipal extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (btnExamen.isEnabled()) {
 					abrirExamen();
-					lblExamen_1.setVisible(true);
+
 				}
 
 //				cargarPlantilla();
@@ -129,7 +129,7 @@ public class PantallaPrincipal extends JFrame {
 		panel.add(btnPlantilla);
 
 		lblPlantilla = new JLabel("Plantilla de correción:");
-		lblPlantilla.setVisible(false);
+		lblPlantilla.setVisible(true);
 		lblPlantilla.setForeground(new Color(255, 255, 255));
 		lblPlantilla.setBounds(33, 70, 235, 15);
 		panel.add(lblPlantilla);
@@ -148,7 +148,7 @@ public class PantallaPrincipal extends JFrame {
 		panel.add(lblExamenCorrecion);
 
 		lblExamen_1 = new JLabel("Examen a corregir:");
-		lblExamen_1.setVisible(false);
+		lblExamen_1.setVisible(true);
 		lblExamen_1.setForeground(Color.WHITE);
 		lblExamen_1.setBounds(33, 138, 235, 15);
 		panel.add(lblExamen_1);
@@ -428,9 +428,8 @@ public class PantallaPrincipal extends JFrame {
 			e1.printStackTrace();
 		}
 		btnExamen.setEnabled(true);
-		lblPlantilla.setVisible(true);
+
 		lblPlantillaCorrecion.setVisible(true);
-		btnExamen.setEnabled(true);
 
 	}
 
