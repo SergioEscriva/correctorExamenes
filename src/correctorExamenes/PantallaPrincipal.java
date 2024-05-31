@@ -37,7 +37,7 @@ public class PantallaPrincipal extends JFrame {
 
     private JSONArray listaPlantillas;
     private JLabel lblPlantillaCorrecion;
-    private JFrame frame;
+    private JFrame frame1;
     private JLabel lblExamenCorrecion;
     private JLabel lblNotaCalculada;
     private JLabel lblAcertadas_2;
@@ -267,13 +267,21 @@ public class PantallaPrincipal extends JFrame {
 
 		lblExamenCorrecion.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblExamenCorrecion.setForeground(Color.YELLOW);
-		lblExamenCorrecion.setText("Cargando y corrigiendo examen");
-		DialogoFicheros dialogoFicheros = new DialogoFicheros();
 		lblExamenCorrecion.setVisible(true);
+		lblExamenCorrecion.setText("Cargando y corrigiendo examen");
+
+		// Abre dialogo fichero para cargar la imagen
+		DialogoFicheros dialogoFicheros = new DialogoFicheros();
 		String rutaExamen = dialogoFicheros.abrirExplorador();
+		if (rutaExamen != null) {
+		    System.out.println("Error Archivo");
+
+		    examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
+		}
+
+		lblExamenCorrecion.setVisible(true);
 
 		// BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
-		examenalumnoMap = busquedaCirculos.buscarRespuestas(rutaExamen);
 
 		if (!examenalumnoMap.isEmpty()) {
 		    Map<String, String> notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
@@ -325,26 +333,36 @@ public class PantallaPrincipal extends JFrame {
 
     public Map<Integer, String> escanearPlantilla() throws IOException, JSONException {
 	DialogoFicheros dialogoFicheros = new DialogoFicheros();
+	BuscarCirculos busquedaCirculos = new BuscarCirculos();
+	Map<Integer, String> plantillaCorrecion = new HashMap<Integer, String>();
 
 	String rutaPlantilla = dialogoFicheros.abrirExplorador();
 
-	BuscarCirculos busquedaCirculos = new BuscarCirculos();
-	Map<Integer, String> plantillaCorrecion = busquedaCirculos.buscarRespuestas(rutaPlantilla);
+	if (rutaPlantilla != null) {
+	    plantillaCorrecion = busquedaCirculos.buscarRespuestas(rutaPlantilla);
+	} else {
+	    // rutaPlantilla = dialogoFicheros.abrirExplorador();
+
+	    frame1.setVisible(false);
+
+	}
+
+	// plantillaCorrecion = busquedaCirculos.buscarRespuestas(rutaPlantilla);
 	return plantillaCorrecion;
     }
 
     public void crearVentanaExamen(String codigoTest) {
 
-	frame = new JFrame("Crear Plantilla");
-	frame.setSize(273, 150);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setLocationRelativeTo(null);
+	frame1 = new JFrame("Crear Plantilla");
+	frame1.setSize(273, 150);
+	frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame1.setLocationRelativeTo(null);
 
 	JPanel panel = new JPanel();
-	frame.getContentPane().add(panel);
+	frame1.getContentPane().add(panel);
 	placeComponents(panel, codigoTest);
 
-	frame.setVisible(true);
+	frame1.setVisible(true);
 
     }
 
@@ -370,8 +388,8 @@ public class PantallaPrincipal extends JFrame {
 		try {
 		    Map<Integer, String> plantillaCorrecionMap = escanearPlantilla();
 		    utilidades.guardarJson(plantillaCorrecionMap, codigoTest);
+		    frame1.setVisible(false);
 
-		    frame.setVisible(false);
 		} catch (IOException e1) {
 		    // TODO Auto-generated catch block
 		    e1.printStackTrace();
@@ -380,7 +398,7 @@ public class PantallaPrincipal extends JFrame {
 		    e1.printStackTrace();
 		}
 		cargarPlantilla();
-		frame.setVisible(false);
+		frame1.setVisible(false);
 	    }
 	});
 	nuevaPlantillaButton.setBounds(10, 80, 110, 25);
@@ -390,8 +408,7 @@ public class PantallaPrincipal extends JFrame {
 	registerButton.addMouseListener(new MouseAdapter() {
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
-
-		frame.setVisible(false);
+		frame1.setVisible(false);
 	    }
 	});
 
@@ -405,7 +422,6 @@ public class PantallaPrincipal extends JFrame {
 
 	    try {
 		lblPlantillaCorrecion.setForeground(Color.GREEN);
-		System.out.println(utilidades.json(tfIntroducirPlantilla.getText()) + " utilidades");
 		listaPlantillas = utilidades.json(tfIntroducirPlantilla.getText());
 
 		if (listaPlantillas == null || listaPlantillas.length() == 0) {
