@@ -53,8 +53,10 @@ public class PantallaPrincipal extends JFrame {
     private JLabel lblNulas;
     private JLabel lblBlanco;
     private JLabel lblPlantilla;
+    private JLabel lblPenalizacion;
 
     private JTextField tfIntroducirPlantilla;
+    private JTextField txtFPenalizacion;
 
     public static void main(String[] args) {
 	EventQueue.invokeLater(new Runnable() {
@@ -167,61 +169,76 @@ public class PantallaPrincipal extends JFrame {
 	lblNotaCalculada.setBounds(63, 221, 171, 62);
 	panel.add(lblNotaCalculada);
 
-	lblAcertadas = new JLabel("Acertadas: ");
+	lblAcertadas = new JLabel("Correctas: ");
 	lblAcertadas.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblAcertadas.setVisible(false);
 	lblAcertadas.setForeground(Color.WHITE);
-	lblAcertadas.setBounds(299, 205, 88, 15);
+	lblAcertadas.setBounds(284, 205, 103, 15);
 	panel.add(lblAcertadas);
 
 	lblFalladas = new JLabel("Falladas: ");
 	lblFalladas.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblFalladas.setVisible(false);
 	lblFalladas.setForeground(Color.WHITE);
-	lblFalladas.setBounds(299, 230, 88, 15);
+	lblFalladas.setBounds(284, 230, 88, 15);
 	panel.add(lblFalladas);
 
 	lblBlanco = new JLabel("En Blanco: ");
 	lblBlanco.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblBlanco.setVisible(false);
 	lblBlanco.setForeground(Color.WHITE);
-	lblBlanco.setBounds(299, 257, 88, 15);
+	lblBlanco.setBounds(284, 257, 88, 15);
 	panel.add(lblBlanco);
 
 	lblNulas = new JLabel("Nulas:  ");
 	lblNulas.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblNulas.setVisible(false);
 	lblNulas.setForeground(Color.WHITE);
-	lblNulas.setBounds(299, 284, 88, 15);
+	lblNulas.setBounds(284, 283, 88, 15);
 	panel.add(lblNulas);
 
 	lblNulas_2 = new JLabel("0");
 	lblNulas_2.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblNulas_2.setVisible(false);
 	lblNulas_2.setForeground(Color.WHITE);
-	lblNulas_2.setBounds(402, 283, 88, 15);
+	lblNulas_2.setBounds(384, 283, 88, 15);
 	panel.add(lblNulas_2);
 
 	lblEnBlanco = new JLabel("0");
 	lblEnBlanco.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblEnBlanco.setVisible(false);
 	lblEnBlanco.setForeground(Color.WHITE);
-	lblEnBlanco.setBounds(402, 256, 88, 15);
+	lblEnBlanco.setBounds(384, 256, 88, 15);
 	panel.add(lblEnBlanco);
 
 	lblFalladas_2 = new JLabel("0");
 	lblFalladas_2.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblFalladas_2.setVisible(false);
 	lblFalladas_2.setForeground(Color.WHITE);
-	lblFalladas_2.setBounds(402, 229, 88, 15);
+	lblFalladas_2.setBounds(384, 229, 88, 15);
 	panel.add(lblFalladas_2);
 
 	lblAcertadas_2 = new JLabel("0");
 	lblAcertadas_2.setFont(new Font("Dialog", Font.BOLD, 14));
 	lblAcertadas_2.setVisible(false);
 	lblAcertadas_2.setForeground(Color.WHITE);
-	lblAcertadas_2.setBounds(402, 204, 88, 15);
+	lblAcertadas_2.setBounds(384, 204, 88, 15);
 	panel.add(lblAcertadas_2);
+
+	lblPenalizacion = new JLabel("Penalización: ");
+	lblPenalizacion.setFont(new Font("Dialog", Font.BOLD, 14));
+	lblPenalizacion.setVisible(false);
+	lblPenalizacion.setForeground(Color.WHITE);
+	lblPenalizacion.setBounds(285, 328, 114, 15);
+	panel.add(lblPenalizacion);
+
+	txtFPenalizacion = new JTextField("-0.20");
+	txtFPenalizacion.setFont(new Font("Dialog", Font.BOLD, 14));
+	txtFPenalizacion.setVisible(false);
+	txtFPenalizacion.setForeground(Color.BLUE);
+	txtFPenalizacion.setBounds(284, 350, 114, 19);
+	panel.add(txtFPenalizacion);
+	txtFPenalizacion.setColumns(10);
 
 	// Selecciona el texto de la ventana de numero de plantilla
 	tfIntroducirPlantilla = new JTextField();
@@ -291,7 +308,8 @@ public class PantallaPrincipal extends JFrame {
 		// BusquedaCirculos busquedaCirculos = new BusquedaCirculos();
 
 		if (!examenalumnoMap.isEmpty()) {
-		    Map<String, String> notaFinal = busquedaCirculos.calcularNota(listaPlantillas);
+		    Double penalizacion = Double.valueOf(txtFPenalizacion.getText());
+		    Map<String, String> notaFinal = busquedaCirculos.calcularNota(listaPlantillas, penalizacion);
 		    lblNotaCalculada.setForeground(Color.RED);
 		    lblNotaCalculada.setText(String.valueOf(notaFinal.get("notaFinal")));
 		    lblAcertadas_2.setText(String.valueOf(notaFinal.get("aciertos")));
@@ -334,6 +352,8 @@ public class PantallaPrincipal extends JFrame {
 	lblFalladas_2.setVisible(true);
 	lblAcertadas_2.setVisible(true);
 	lblBlanco.setVisible(true);
+	txtFPenalizacion.setVisible(true);
+	lblPenalizacion.setVisible(true);
 
     }
 
@@ -451,5 +471,4 @@ public class PantallaPrincipal extends JFrame {
 	lblPlantillaCorrecion.setVisible(true);
 
     }
-
 }
