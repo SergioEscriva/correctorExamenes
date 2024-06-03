@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -83,6 +84,7 @@ public class PantallaPrincipal extends JFrame {
 	contentPane.setLayout(null);
 
 	panel = new JPanel();
+	panel.setAutoscrolls(true);
 	panel.setBounds(0, 0, 535, 539);
 	panel.setPreferredSize(new Dimension(450, 300));
 	panel.setBackground(new Color(9, 37, 72));
@@ -124,7 +126,7 @@ public class PantallaPrincipal extends JFrame {
 	    }
 
 	});
-	btnPlantilla.setBounds(33, 471, 183, 25);
+	btnPlantilla.setBounds(37, 459, 183, 37);
 	panel.add(btnPlantilla);
 
 	lblPlantilla = new JLabel("Plantilla de correción:");
@@ -236,7 +238,7 @@ public class PantallaPrincipal extends JFrame {
 	txtFPenalizacion.setFont(new Font("Dialog", Font.BOLD, 14));
 	txtFPenalizacion.setVisible(false);
 	txtFPenalizacion.setForeground(Color.BLUE);
-	txtFPenalizacion.setBounds(284, 350, 114, 19);
+	txtFPenalizacion.setBounds(284, 350, 114, 25);
 	panel.add(txtFPenalizacion);
 	txtFPenalizacion.setColumns(10);
 
@@ -257,13 +259,13 @@ public class PantallaPrincipal extends JFrame {
 	    }
 	});
 	tfIntroducirPlantilla.setText("00001"); // "Introducir N.º Plantilla"
-	tfIntroducirPlantilla.setBounds(33, 434, 183, 25);
+	tfIntroducirPlantilla.setBounds(37, 422, 183, 25);
 	panel.add(tfIntroducirPlantilla);
 	tfIntroducirPlantilla.setColumns(10);
 
 	JLabel lblNmeroDePlantilla = new JLabel("Identificador de Plantilla:");
 	lblNmeroDePlantilla.setForeground(Color.WHITE);
-	lblNmeroDePlantilla.setBounds(33, 417, 235, 15);
+	lblNmeroDePlantilla.setBounds(37, 405, 235, 15);
 	panel.add(lblNmeroDePlantilla);
 
 	JLabel lblExamen_1_1 = new JLabel("Examen Alumno");
@@ -276,6 +278,11 @@ public class PantallaPrincipal extends JFrame {
 	lblTitulo.setForeground(new Color(246, 245, 244));
 	lblTitulo.setBounds(95, 12, 325, 29);
 	panel.add(lblTitulo);
+
+	JLabel lblNewLabel = new JLabel("");
+	lblNewLabel.setIcon(new ImageIcon(PantallaPrincipal.class.getResource("/resources/logounFondopng.png")));
+	lblNewLabel.setBounds(73, 295, 103, 125);
+	panel.add(lblNewLabel);
 
     }
 
